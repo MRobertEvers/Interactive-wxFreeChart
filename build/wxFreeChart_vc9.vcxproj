@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Debug|Win32">
+      <Configuration>DLL Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Release|Win32">
+      <Configuration>DLL Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release static|Win32">
+      <Configuration>Release static</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>wxFreeChart</ProjectName>
+    <ProjectGuid>{A53CAAB8-0449-48F8-A751-80235104C669}</ProjectGuid>
+    <RootNamespace>wxFreeChart</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release static|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release static|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="wxFreeChart_vc9.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="wxFreeChart_vc9.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="wxFreeChart_vc9.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="wxFreeChart_vc9.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="wxFreeChart_vc9.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.27428.2015</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\lib\vc_lib\</OutDir>
+    <IntDir>vc_mswud\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\lib\vc_lib\</OutDir>
+    <IntDir>vc_mswu\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'">
+    <OutDir>..\lib\vc_dll\</OutDir>
+    <IntDir>vc_mswudll\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'">
+    <OutDir>..\lib\vc_dll\</OutDir>
+    <IntDir>vc_mswuddll\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release static|Win32'">
+    <OutDir>..\lib\vc_lib-static\</OutDir>
+    <IntDir>vc_mswu-static\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\mswud;$(WXWIN)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINDOWS;__WXMSW__;__WXDEBUG__;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)wxFreeChart$(wxFreeChartShortVersionStr)ud.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\mswu;$(WXWIN)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;__WXMSW__;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)wxFreeChart$(wxFreeChartShortVersionStr)u.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(WXWIN)\include\msvc;$(WXWIN)\lib\vc_dll\mswu;$(WXWIN)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;__WXMSW__;NDEBUG;_USRDLL;DLL_EXPORTS;WXUSINGDLL;WXMAKINGDLL_FREECHART;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)wxFreeChart$(wxFreeChartShortVersionStr)u.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>..\lib\vc_dll\wxFreeChart$(wxFreeChartShortVersionStr)u.pdb</ProgramDatabaseFile>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <ImportLibrary>..\lib\vc_dll\wxFreeChart$(wxFreeChartShortVersionStr)u.lib</ImportLibrary>
+      <TargetMachine>NotSet</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(WXWIN)\include\msvc;$(WXWIN)\lib\vc_dll\mswud;$(WXWIN)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;__WXMSW__;__WXDEBUG__;_USRDLL;DLL_EXPORTS;WXUSINGDLL;WXMAKINGDLL_FREECHART;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)wxFreeChart$(wxFreeChartShortVersionStr)ud.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>..\lib\vc_dll\wxFreeChart$(wxFreeChartShortVersionStr)ud.pdb</ProgramDatabaseFile>
+      <ImportLibrary>..\lib\vc_dll\wxFreeChart$(wxFreeChartShortVersionStr)ud.lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release static|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib-static\mswu;$(WXWIN)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;__WXMSW__;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)wxFreeChart$(wxFreeChartShortVersionStr)u.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\wx\areadraw.h" />
+    <ClInclude Include="..\include\wx\art.h" />
+    <ClInclude Include="..\include\wx\axisplot.h" />
+    <ClInclude Include="..\include\wx\axis\axis.h" />
+    <ClInclude Include="..\include\wx\axis\categoryaxis.h" />
+    <ClInclude Include="..\include\wx\axis\compdateaxis.h" />
+    <ClInclude Include="..\include\wx\axis\dateaxis.h" />
+    <ClInclude Include="..\include\wx\axis\juliandateaxis.h" />
+    <ClInclude Include="..\include\wx\axis\labelaxis.h" />
+    <ClInclude Include="..\include\wx\axis\logarithmicnumberaxis.h" />
+    <ClInclude Include="..\include\wx\axis\numberaxis.h" />
+    <ClInclude Include="..\include\wx\bars\barplot.h" />
+    <ClInclude Include="..\include\wx\bars\barrenderer.h" />
+    <ClInclude Include="..\include\wx\category\categorydataset.h" />
+    <ClInclude Include="..\include\wx\category\categoryrenderer.h" />
+    <ClInclude Include="..\include\wx\category\categorysimpledataset.h" />
+    <ClInclude Include="..\include\wx\chart.h" />
+    <ClInclude Include="..\include\wx\chartpanel.h" />
+    <ClInclude Include="..\include\wx\chartrenderer.h" />
+    <ClInclude Include="..\include\wx\chartsplitpanel.h" />
+    <ClInclude Include="..\include\wx\colorscheme.h" />
+    <ClInclude Include="..\include\wx\crosshair.h" />
+    <ClInclude Include="..\include\wx\dataset.h" />
+    <ClInclude Include="..\include\wx\drawobject.h" />
+    <ClInclude Include="..\include\wx\drawutils.h" />
+    <ClInclude Include="..\include\wx\gantt\ganttdataset.h" />
+    <ClInclude Include="..\include\wx\gantt\ganttplot.h" />
+    <ClInclude Include="..\include\wx\gantt\ganttrenderer.h" />
+    <ClInclude Include="..\include\wx\gantt\ganttsimpledataset.h" />
+    <ClInclude Include="..\include\wx\legend.h" />
+    <ClInclude Include="..\include\wx\marker.h" />
+    <ClInclude Include="..\include\wx\multiplot.h" />
+    <ClInclude Include="..\include\wx\observable.h" />
+    <ClInclude Include="..\include\wx\ohlc\movingaverage.h" />
+    <ClInclude Include="..\include\wx\ohlc\movingavg.h" />
+    <ClInclude Include="..\include\wx\ohlc\ohlcbarrenderer.h" />
+    <ClInclude Include="..\include\wx\ohlc\ohlccandlestickrenderer.h" />
+    <ClInclude Include="..\include\wx\ohlc\ohlcdataset.h" />
+    <ClInclude Include="..\include\wx\ohlc\ohlcplot.h" />
+    <ClInclude Include="..\include\wx\ohlc\ohlcrenderer.h" />
+    <ClInclude Include="..\include\wx\ohlc\ohlcsimpledataset.h" />
+    <ClInclude Include="..\include\wx\pie\pieplot.h" />
+    <ClInclude Include="..\include\wx\plot.h" />
+    <ClInclude Include="..\include\wx\refobject.h" />
+    <ClInclude Include="..\include\wx\symbol.h" />
+    <ClInclude Include="..\include\wx\title.h" />
+    <ClInclude Include="..\include\wx\tooltips.h" />
+    <ClInclude Include="..\include\wx\wxfreechartdefs.h" />
+    <ClInclude Include="..\include\wx\xyz\bubbleplot.h" />
+    <ClInclude Include="..\include\wx\xyz\xyzdataset.h" />
+    <ClInclude Include="..\include\wx\xyz\xyzrenderer.h" />
+    <ClInclude Include="..\include\wx\xy\functions\polynom.h" />
+    <ClInclude Include="..\include\wx\xy\functions\sinefunction.h" />
+    <ClInclude Include="..\include\wx\xy\juliantimeseriesdataset.h" />
+    <ClInclude Include="..\include\wx\xy\timeseriesdataset.h" />
+    <ClInclude Include="..\include\wx\xy\vectordataset.h" />
+    <ClInclude Include="..\include\wx\xy\xyarearenderer.h" />
+    <ClInclude Include="..\include\wx\xy\xydataset.h" />
+    <ClInclude Include="..\include\wx\xy\xydynamicdataset.h" />
+    <ClInclude Include="..\include\wx\xy\xyhistorenderer.h" />
+    <ClInclude Include="..\include\wx\xy\xylinerenderer.h" />
+    <ClInclude Include="..\include\wx\xy\xyplot.h" />
+    <ClInclude Include="..\include\wx\xy\xyrenderer.h" />
+    <ClInclude Include="..\include\wx\xy\xysimpledataset.h" />
+    <ClInclude Include="..\include\wx\zoompan.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\areadraw.cpp" />
+    <ClCompile Include="..\src\art.cpp" />
+    <ClCompile Include="..\src\axisplot.cpp" />
+    <ClCompile Include="..\src\axis\axis.cpp" />
+    <ClCompile Include="..\src\axis\categoryaxis.cpp" />
+    <ClCompile Include="..\src\axis\compdateaxis.cpp" />
+    <ClCompile Include="..\src\axis\dateaxis.cpp" />
+    <ClCompile Include="..\src\axis\juliandateaxis.cpp" />
+    <ClCompile Include="..\src\axis\labelaxis.cpp" />
+    <ClCompile Include="..\src\axis\logarithmicnumberaxis.cpp" />
+    <ClCompile Include="..\src\axis\numberaxis.cpp" />
+    <ClCompile Include="..\src\bars\barplot.cpp" />
+    <ClCompile Include="..\src\bars\barrenderer.cpp" />
+    <ClCompile Include="..\src\category\categorydataset.cpp" />
+    <ClCompile Include="..\src\category\categoryrenderer.cpp" />
+    <ClCompile Include="..\src\category\categorysimpledataset.cpp" />
+    <ClCompile Include="..\src\chart.cpp" />
+    <ClCompile Include="..\src\chartpanel.cpp" />
+    <ClCompile Include="..\src\chartsplitpanel.cpp" />
+    <ClCompile Include="..\src\colorscheme.cpp" />
+    <ClCompile Include="..\src\crosshair.cpp" />
+    <ClCompile Include="..\src\dataset.cpp" />
+    <ClCompile Include="..\src\gantt\ganttdataset.cpp" />
+    <ClCompile Include="..\src\gantt\ganttplot.cpp" />
+    <ClCompile Include="..\src\gantt\ganttrenderer.cpp" />
+    <ClCompile Include="..\src\gantt\ganttsimpledataset.cpp" />
+    <ClCompile Include="..\src\legend.cpp" />
+    <ClCompile Include="..\src\marker.cpp" />
+    <ClCompile Include="..\src\multiplot.cpp" />
+    <ClCompile Include="..\src\ohlc\movingaverage.cpp" />
+    <ClCompile Include="..\src\ohlc\ohlcbarrenderer.cpp" />
+    <ClCompile Include="..\src\ohlc\ohlccandlestickrenderer.cpp" />
+    <ClCompile Include="..\src\ohlc\ohlcdataset.cpp" />
+    <ClCompile Include="..\src\ohlc\ohlcplot.cpp" />
+    <ClCompile Include="..\src\ohlc\ohlcrenderer.cpp" />
+    <ClCompile Include="..\src\ohlc\ohlcsimpledataset.cpp" />
+    <ClCompile Include="..\src\pie\pieplot.cpp" />
+    <ClCompile Include="..\src\plot.cpp" />
+    <ClCompile Include="..\src\renderer.cpp" />
+    <ClCompile Include="..\src\symbol.cpp" />
+    <ClCompile Include="..\src\title.cpp" />
+    <ClCompile Include="..\src\tooltips.cpp" />
+    <ClCompile Include="..\src\xyz\bubbleplot.cpp" />
+    <ClCompile Include="..\src\xyz\xyzdataset.cpp" />
+    <ClCompile Include="..\src\xyz\xyzrenderer.cpp" />
+    <ClCompile Include="..\src\xy\functions\polynom.cpp" />
+    <ClCompile Include="..\src\xy\functions\sinefunction.cpp" />
+    <ClCompile Include="..\src\xy\juliantimeseriesdataset.cpp" />
+    <ClCompile Include="..\src\xy\timeseriesdataset.cpp" />
+    <ClCompile Include="..\src\xy\vectordataset.cpp" />
+    <ClCompile Include="..\src\xy\xyarearenderer.cpp" />
+    <ClCompile Include="..\src\xy\xydataset.cpp" />
+    <ClCompile Include="..\src\xy\xydynamicdataset.cpp" />
+    <ClCompile Include="..\src\xy\xyhistorenderer.cpp" />
+    <ClCompile Include="..\src\xy\xylinerenderer.cpp" />
+    <ClCompile Include="..\src\xy\xyplot.cpp" />
+    <ClCompile Include="..\src\xy\xyrenderer.cpp" />
+    <ClCompile Include="..\src\xy\xysimpledataset.cpp" />
+    <ClCompile Include="..\src\zoompan.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

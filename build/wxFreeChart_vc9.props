@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <wxFreeChartShortVersionStr>17</wxFreeChartShortVersionStr>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.27428.2015</_ProjectFileVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="wxFreeChartShortVersionStr">
+      <Value>$(wxFreeChartShortVersionStr)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
