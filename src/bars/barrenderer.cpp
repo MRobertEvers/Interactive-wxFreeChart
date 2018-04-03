@@ -273,7 +273,8 @@ AreaDraw *BarRenderer::GetBarDraw(size_t serie)
 
 void BarRenderer::Draw(wxDC &dc, wxRect rc, Axis *horizAxis, Axis *vertAxis, bool vertical, CategoryDataset *dataset)
 {
-    for (size_t n = 0; n < dataset->GetCount(); n++) {
+    for (size_t n = 0; n < dataset->GetCount(); n++)
+    {
         m_barType->Draw(this, dc, rc, horizAxis, vertAxis, vertical, n, dataset);
     }
 }

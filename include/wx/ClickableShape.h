@@ -6,6 +6,7 @@ class wxPoint;
 #include <wx/drawobject.h>
 #include <wx/wxfreechartdefs.h>
 #include <wx/hashmap.h>
+#include <vector>
 
 class ClickableData
 {
@@ -21,6 +22,7 @@ public:
 
    virtual bool IsHit( wxPoint& pt ) = 0;
    virtual void Draw( wxDC &dc, wxRect rc ) = 0;
+   virtual void InitDraw() {};
    
    virtual ClickableData* GetData()
    {
@@ -71,7 +73,6 @@ public:
    virtual bool IsHit( wxPoint& pt );
 
    virtual void Draw( wxDC &dc, wxRect rc );
-
 private:
 
    // Its really wasteful to duplicate the rectangle for each semicircle. But I think
@@ -96,28 +97,43 @@ public:
    ClickableRectangleDraw( ClickableData* data );
    ~ClickableRectangleDraw();
 
+   void ClearHitBoxes()
+   {
+      m_hitBoxes.clear();
+   }
+
    bool IsHit( wxPoint& pt )
    {
-      if( m_hitBox.IsEmpty() )
+      if( m_hitBoxes.size() == 0 )
       {
          return false;
       }
 
-      return m_hitBox.Contains( pt );
+      for( auto& rect : m_hitBoxes )
+      {
+         if( rect.Contains( pt ) )
+         {
+            return true;
+         }
+      }
+
+      return false;
    }
 
-   void SetHitBox( wxRect& rc )
+   void AddHitBox( wxRect& rc )
    {
-      m_hitBox = rc;
+      m_hitBoxes.push_back(rc);
    }
 
-   wxRect GetHitBox()
-   {
-      return m_hitBox;
+   virtual void InitDraw()
+   { 
+      ClearHitBoxes(); 
    }
 
 private:
-   wxRect m_hitBox;
+   // TODO: The particular data is lost since multiple hitboxes are tied
+   // to one data. This needs to be rectified.
+   std::vector<wxRect> m_hitBoxes;
 };
 
 
@@ -169,6 +185,8 @@ public:
    * @return areadraw
    */
    ClickableShape* GetAreaDraw( int serie );
+
+   void ClearDrawnHitBoxes();
 
    ClickableShape* GetDataAtPoint( wxPoint& pt );
 

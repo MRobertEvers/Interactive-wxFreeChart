@@ -50,8 +50,9 @@ ClickableBarRenderer::DrawLegendSymbol( wxDC &dc, wxRect rcSymbol, size_t serie 
 void 
 ClickableBarRenderer::Draw( wxDC &dc, wxRect rc, Axis *horizAxis, Axis *vertAxis, bool vertical, CategoryDataset *dataset )
 {
+   m_bHasDrawn = false;
+   m_barClickDraws.ClearDrawnHitBoxes();
    BarRenderer::Draw( dc, rc, horizAxis, vertAxis, vertical, dataset );
-
    m_bHasDrawn = true;
 }
 

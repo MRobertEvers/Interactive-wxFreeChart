@@ -147,7 +147,7 @@ void
 ClickableGradientAreaDraw::Draw( wxDC &dc, wxRect rc )
 {
    GradientAreaDraw::Draw( dc, rc );
-   SetHitBox( rc );
+   AddHitBox( rc );
 }
 
 ClickableFillAreaDraw::ClickableFillAreaDraw( wxPen borderPen, wxBrush fillBrush, ClickableData* data )
@@ -169,7 +169,7 @@ void
 ClickableFillAreaDraw::Draw( wxDC &dc, wxRect rc )
 {
    FillAreaDraw::Draw( dc, rc );
-   SetHitBox( rc );
+   AddHitBox( rc );
 }
 
 ClickableAreaCollection::ClickableAreaCollection()
@@ -207,6 +207,16 @@ ClickableAreaCollection::GetAreaDraw( int serie )
       return m_areas[serie];
    }
    return NULL;
+}
+
+void 
+ClickableAreaCollection::ClearDrawnHitBoxes()
+{
+   ClickableAreaDrawMap::iterator it;
+   for( it = m_areas.begin(); it != m_areas.end(); it++ )
+   {
+      it->second->InitDraw();
+   }
 }
 
 ClickableShape* 
