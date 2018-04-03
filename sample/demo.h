@@ -28,6 +28,52 @@
 #include <wx/aui/aui.h>
 
 #include "democollection.h"
+#include <wx/InteractivePlot.h>
+
+class ClickMode : public ChartPanelMode
+{
+public:
+   ClickMode() {}
+   ~ClickMode() {}
+
+   void Init( wxChartPanel* panel )
+   {
+      m_Panel = panel;
+   }
+
+   void ChartEnterWindow()
+   {
+   }
+
+   void ChartMouseDown( wxPoint &pt, int key )
+   {
+      auto plot = m_Panel->GetChart()->GetPlot();
+      auto intPlot = dynamic_cast<InteractivePlot*>(plot);
+      if( intPlot != nullptr )
+      {
+         intPlot->GetDataAtPoint( pt );
+      }
+   }
+
+   void ChartMouseUp( wxPoint &pt, int key )
+   {
+   }
+
+   void ChartMouseMove( wxPoint &pt )
+   {
+   }
+
+   void ChartMouseDrag( wxPoint &pt )
+   {
+   }
+
+   void ChartMouseWheel( int rotation )
+   {
+   }
+
+private:
+   wxChartPanel* m_Panel;
+};
 
 /**
  * Chart demo select tree control.

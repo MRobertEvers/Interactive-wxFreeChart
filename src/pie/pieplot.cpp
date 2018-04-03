@@ -17,13 +17,13 @@
  * TODO Initial quick and dirty. Must be rewritten.
  */
 
-void Rotate(wxCoord &x, wxCoord &y, wxCoord xc, wxCoord yc, double rad, double angle)
+static void Rotate(wxCoord &x, wxCoord &y, wxCoord xc, wxCoord yc, double rad, double angle)
 {
     x = (wxCoord) (rad * cos(angle) + xc);
     y = (wxCoord) (-rad * sin(angle) + yc);
 }
 
-void EllipticEgde(wxCoord x, wxCoord y, wxCoord width, wxCoord height, double angle, wxCoord &outX, wxCoord &outY)
+static void EllipticEgde(wxCoord x, wxCoord y, wxCoord width, wxCoord height, double angle, wxCoord &outX, wxCoord &outY)
 {
     double degs = angle * M_PI / 180;
 
@@ -81,6 +81,13 @@ bool PiePlot::HasData()
 {
     return m_dataset != NULL && (m_dataset->GetSerieCount() >= m_serie);
 }
+
+Dataset*
+PiePlot::GetDataAtPoint( wxPoint& pt )
+{
+   return nullptr;
+}
+
 
 void PiePlot::DatasetChanged(Dataset *WXUNUSED(dataset))
 {

@@ -24,7 +24,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>wxFreeChart</ProjectName>
-    <ProjectGuid>{A53CAAB8-0449-48F8-A751-80235104C669}</ProjectGuid>
+    <ProjectGuid>{3561A1A8-0913-4B31-9670-2A8D69DC1848}</ProjectGuid>
     <RootNamespace>wxFreeChart</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
@@ -210,6 +210,8 @@
     <ClInclude Include="..\include\wx\chartpanel.h" />
     <ClInclude Include="..\include\wx\chartrenderer.h" />
     <ClInclude Include="..\include\wx\chartsplitpanel.h" />
+    <ClInclude Include="..\include\wx\ClickableRenderer.h" />
+    <ClInclude Include="..\include\wx\ClickableShape.h" />
     <ClInclude Include="..\include\wx\colorscheme.h" />
     <ClInclude Include="..\include\wx\crosshair.h" />
     <ClInclude Include="..\include\wx\dataset.h" />
@@ -219,6 +221,7 @@
     <ClInclude Include="..\include\wx\gantt\ganttplot.h" />
     <ClInclude Include="..\include\wx\gantt\ganttrenderer.h" />
     <ClInclude Include="..\include\wx\gantt\ganttsimpledataset.h" />
+    <ClInclude Include="..\include\wx\InteractivePlot.h" />
     <ClInclude Include="..\include\wx\legend.h" />
     <ClInclude Include="..\include\wx\marker.h" />
     <ClInclude Include="..\include\wx\multiplot.h" />
@@ -276,6 +279,8 @@
     <ClCompile Include="..\src\chart.cpp" />
     <ClCompile Include="..\src\chartpanel.cpp" />
     <ClCompile Include="..\src\chartsplitpanel.cpp" />
+    <ClCompile Include="..\src\ClickableRenderer.cpp" />
+    <ClCompile Include="..\src\ClickableShape.cpp" />
     <ClCompile Include="..\src\colorscheme.cpp" />
     <ClCompile Include="..\src\crosshair.cpp" />
     <ClCompile Include="..\src\dataset.cpp" />
@@ -283,6 +288,7 @@
     <ClCompile Include="..\src\gantt\ganttplot.cpp" />
     <ClCompile Include="..\src\gantt\ganttrenderer.cpp" />
     <ClCompile Include="..\src\gantt\ganttsimpledataset.cpp" />
+    <ClCompile Include="..\src\InteractivePlot.cpp" />
     <ClCompile Include="..\src\legend.cpp" />
     <ClCompile Include="..\src\marker.cpp" />
     <ClCompile Include="..\src\multiplot.cpp" />

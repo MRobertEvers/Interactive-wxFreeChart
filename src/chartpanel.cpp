@@ -270,6 +270,11 @@ void wxChartPanel::OnMouseEvents(wxMouseEvent &ev)
         return ;
     }
 
+    if( ev.GetEventType() == wxEVT_LEFT_DOWN )
+    {
+       m_mode->ChartMouseDown( ev.GetPosition(), wxMOUSE_BTN_RIGHT );
+    }
+
 #if 0
     // TODO
     switch (ev.GetEventType()) {

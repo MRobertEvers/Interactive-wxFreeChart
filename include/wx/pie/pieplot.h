@@ -11,6 +11,7 @@
 #define PIEPLOT_H_
 
 #include <wx/plot.h>
+#include <wx/InteractivePlot.h>
 #include <wx/category/categorydataset.h>
 #include <wx/category/categoryrenderer.h>
 #include <wx/legend.h>
@@ -24,7 +25,7 @@ const int shift3D = 20;
  * Pie plot.
  * TODO: initial quick and dirty, must be cleaned up or rewritten.
  */
-class WXDLLIMPEXP_FREECHART PiePlot : public Plot, public DatasetObserver
+class WXDLLIMPEXP_FREECHART PiePlot : public Plot, public InteractivePlot, public DatasetObserver
 {
 public:
     PiePlot();
@@ -57,6 +58,11 @@ public:
     }
 
     void SetLegend(Legend *legend);
+
+    //
+    // InteractivePlot
+    //
+    virtual Dataset* GetDataAtPoint( wxPoint& pt );
 
     //
     // DatasetObserver

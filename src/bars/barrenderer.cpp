@@ -77,9 +77,16 @@ void BarType::Draw(BarRenderer *barRenderer, wxDC &dc, wxRect rc,
         }
 
         // draw bar
-        AreaDraw *barDraw = barRenderer->GetBarDraw(serie);
-        barDraw->Draw(dc, rcBar);
+        Draw( barRenderer, dc, rcBar, serie );
     }
+}
+
+void 
+BarType::Draw( BarRenderer* barRenderer, wxDC& dc, wxRect& rc, size_t serie )
+{
+   // draw bar
+   AreaDraw *barDraw = barRenderer->GetBarDraw( serie );
+   barDraw->Draw( dc, rc );
 }
 
 double BarType::GetMinValue(CategoryDataset *dataset)

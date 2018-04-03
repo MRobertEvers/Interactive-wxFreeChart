@@ -14,6 +14,7 @@
 #include "democollection.h"
 
 #include <wx/bars/barplot.h>
+#include <wx/ClickableRenderer.h>
 
 #include <wx/axis/numberaxis.h>
 #include <wx/axis/categoryaxis.h>
@@ -393,16 +394,16 @@ public:
         BarType *barType = new LayeredBarType(40, 0);
 
         // Set bar renderer for it, with layered bar type
-        BarRenderer *renderer = new BarRenderer(barType);
+        ClickableBarRenderer *renderer = new ClickableBarRenderer(barType);
 
         // Some eye-candy: gradient bars
-        renderer->SetBarDraw(0, new GradientAreaDraw(DEFAULT_BAR_FILL_COLOUR_0, DEFAULT_BAR_FILL_COLOUR_0, 
-                                                        DEFAULT_BAR_FILL_COLOUR_0.ChangeLightness(150), wxEAST));
-        renderer->SetBarDraw(1, new GradientAreaDraw(DEFAULT_BAR_FILL_COLOUR_1, DEFAULT_BAR_FILL_COLOUR_1, 
-                                                        DEFAULT_BAR_FILL_COLOUR_1.ChangeLightness(150), wxEAST));
+        renderer->SetBarDraw(0, new ClickableGradientAreaDraw(DEFAULT_BAR_FILL_COLOUR_0, DEFAULT_BAR_FILL_COLOUR_0, 
+                                                        DEFAULT_BAR_FILL_COLOUR_0.ChangeLightness(150), wxEAST, nullptr));
+        renderer->SetBarDraw(1, new ClickableGradientAreaDraw(DEFAULT_BAR_FILL_COLOUR_1, DEFAULT_BAR_FILL_COLOUR_1,
+                                                        DEFAULT_BAR_FILL_COLOUR_1.ChangeLightness(150), wxEAST, nullptr ));
 
         // assign renderer to dataset
-        dataset->SetRenderer(renderer);
+        dataset->SetRenderer((BarRenderer*)renderer);
 
         // Create bar plot
         BarPlot *plot = new BarPlot();

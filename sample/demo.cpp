@@ -106,6 +106,8 @@ MainFrame::MainFrame()
     m_mgr.SetManagedWindow(this);
     
     m_chartPanel = new wxChartPanel(this);
+    m_chartPanel->SetMode(new ClickMode());
+
     m_mgr.AddPane(m_chartPanel,
             wxAuiPaneInfo().Center().BestSize(400, 400).CloseButton(false).Caption(wxT("chart")));
 

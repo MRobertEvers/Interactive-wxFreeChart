@@ -12,6 +12,7 @@
 #include <wx/axis/categoryaxis.h>
 #include <wx/axis/numberaxis.h>
 #include <wx/axis/dateaxis.h>
+#include <wx/ClickableRenderer.h>
 
 BarPlot::BarPlot()
 {
@@ -19,6 +20,27 @@ BarPlot::BarPlot()
 
 BarPlot::~BarPlot()
 {
+}
+
+Dataset* 
+BarPlot::GetDataAtPoint( wxPoint& pt )
+{
+   for( size_t nData = 0; nData < GetDatasetCount(); nData++ )
+   {
+      CategoryDataset *dataset = (CategoryDataset *)GetDataset( nData );
+      BarRenderer *renderer = dataset->GetRenderer();
+      auto intRenderer = dynamic_cast<ClickableBarRenderer*>(renderer);
+      if( intRenderer != nullptr )
+      {
+         auto result = intRenderer->GetDataAtPoint( pt );
+         if( result != nullptr )
+         {
+            return nullptr;
+         }
+      }
+   }
+
+   return nullptr;
 }
 
 bool BarPlot::AcceptAxis(Axis *axis)

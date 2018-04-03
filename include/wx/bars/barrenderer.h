@@ -37,7 +37,9 @@ public:
      * @param item dataset item index
      * @param dataset dataset to draw bars
      */
-    virtual void Draw(BarRenderer *barRenderer, wxDC &dc, wxRect rc, Axis *horizAxis, Axis *vertAxis, bool vertical, size_t item, CategoryDataset *dataset);
+    virtual void Draw(BarRenderer* barRenderer, wxDC &dc, wxRect rc, Axis *horizAxis, Axis *vertAxis, bool vertical, size_t item, CategoryDataset *dataset);
+
+    virtual void Draw( BarRenderer* barRenderer, wxDC& dc, wxRect& rc, size_t serie );
 
     //
     // Called from BarRenderer. Don't call from programs.
@@ -162,7 +164,7 @@ public:
      * @param vertical true to draw vertical bars
      * @param dataset dataset to be drawn
      */
-    void Draw(wxDC &dc, wxRect rc, Axis *horizAxis, Axis *vertAxis, bool vertical, CategoryDataset *dataset);
+    virtual void Draw(wxDC &dc, wxRect rc, Axis *horizAxis, Axis *vertAxis, bool vertical, CategoryDataset *dataset);
 
     /**
      * Sets bar type, an object that performs bars drawing.
@@ -170,35 +172,37 @@ public:
      * @param barType new bar type,
      * renderer takes ownership for bar type object
      */
-    void SetBarType(BarType *barType);
+    virtual void SetBarType(BarType *barType);
 
     /**
      * Returns bar type.
      * @return bar type
      */
-    BarType *GetBarType();
+    virtual BarType *GetBarType();
 
     /**
      * Sets area draw object to draw specified serie.
      * @param serie serie index
      * @param ad area draw for serie
      */
-    void SetBarDraw(size_t serie, AreaDraw *areaDraw);
+    virtual void SetBarDraw(size_t serie, AreaDraw *areaDraw);
 
     /**
      * Returns area draw object, used to draw specified serie.
      * @param serie serie index
      * @return area draw object
      */
-    AreaDraw *GetBarDraw(size_t serie);
+    virtual AreaDraw *GetBarDraw(size_t serie);
 
-    double GetMinValue(CategoryDataset *dataset);
-    double GetMaxValue(CategoryDataset *dataset);
+    virtual double GetMinValue(CategoryDataset *dataset);
+    virtual double GetMaxValue(CategoryDataset *dataset);
 
-private:
+protected:
     BarType *m_barType;
 
+private:
     AreaDrawCollection m_barDraws;
+
 };
 
 #endif /*BARRENDERER_H_*/

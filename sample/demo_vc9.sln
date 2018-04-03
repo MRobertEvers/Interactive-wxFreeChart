@@ -5,11 +5,14 @@ VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxFreeChart Demo", "demo_vc9.vcxproj", "{A53CAAB8-0449-48F8-A751-80235104C669}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxFreeChart", "..\build\wxFreeChart_vc9.vcxproj", "{3561A1A8-0913-4B31-9670-2A8D69DC1848}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		DLL Debug|Win32 = DLL Debug|Win32
 		DLL Release|Win32 = DLL Release|Win32
+		Release static|Win32 = Release static|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
@@ -19,8 +22,20 @@ Global
 		{A53CAAB8-0449-48F8-A751-80235104C669}.DLL Debug|Win32.Build.0 = DLL Debug|Win32
 		{A53CAAB8-0449-48F8-A751-80235104C669}.DLL Release|Win32.ActiveCfg = DLL Release|Win32
 		{A53CAAB8-0449-48F8-A751-80235104C669}.DLL Release|Win32.Build.0 = DLL Release|Win32
+		{A53CAAB8-0449-48F8-A751-80235104C669}.Release static|Win32.ActiveCfg = Release|Win32
+		{A53CAAB8-0449-48F8-A751-80235104C669}.Release static|Win32.Build.0 = Release|Win32
 		{A53CAAB8-0449-48F8-A751-80235104C669}.Release|Win32.ActiveCfg = Release|Win32
 		{A53CAAB8-0449-48F8-A751-80235104C669}.Release|Win32.Build.0 = Release|Win32
+		{3561A1A8-0913-4B31-9670-2A8D69DC1848}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3561A1A8-0913-4B31-9670-2A8D69DC1848}.Debug|Win32.Build.0 = Debug|Win32
+		{3561A1A8-0913-4B31-9670-2A8D69DC1848}.DLL Debug|Win32.ActiveCfg = DLL Debug|Win32
+		{3561A1A8-0913-4B31-9670-2A8D69DC1848}.DLL Debug|Win32.Build.0 = DLL Debug|Win32
+		{3561A1A8-0913-4B31-9670-2A8D69DC1848}.DLL Release|Win32.ActiveCfg = DLL Release|Win32
+		{3561A1A8-0913-4B31-9670-2A8D69DC1848}.DLL Release|Win32.Build.0 = DLL Release|Win32
+		{3561A1A8-0913-4B31-9670-2A8D69DC1848}.Release static|Win32.ActiveCfg = Release static|Win32
+		{3561A1A8-0913-4B31-9670-2A8D69DC1848}.Release static|Win32.Build.0 = Release static|Win32
+		{3561A1A8-0913-4B31-9670-2A8D69DC1848}.Release|Win32.ActiveCfg = Release|Win32
+		{3561A1A8-0913-4B31-9670-2A8D69DC1848}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
