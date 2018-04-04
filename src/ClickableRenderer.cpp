@@ -56,6 +56,13 @@ ClickableBarRenderer::Draw( wxDC &dc, wxRect rc, Axis *horizAxis, Axis *vertAxis
    m_bHasDrawn = true;
 }
 
+void 
+ClickableBarRenderer::DrawBar( wxDC& dc, wxRect& rc, size_t serie, size_t category )
+{
+   ClickableShape* shape = GetBarDraw( serie );
+   shape->Draw( dc, rc, serie, category );
+}
+
 /**
 * Sets bar type, an object that performs bars drawing.
 * BarRenderer owns this object.
@@ -101,10 +108,10 @@ ClickableBarRenderer::SetBarDraw( size_t serie, AreaDraw *areaDraw )
 * @param serie serie index
 * @return area draw object
 */
-AreaDraw *
+ClickableShape *
 ClickableBarRenderer::GetBarDraw( size_t serie )
 {
-   ClickableShape *barDraw = m_barClickDraws.GetAreaDraw( serie );
+   ClickableShape* barDraw = m_barClickDraws.GetAreaDraw( serie );
    if( barDraw == NULL )
    {
       // barDraw = new FillAreaDraw(GetDefaultColour(serie), GetDefaultColour(serie));

@@ -27,66 +27,69 @@ void BarType::Draw(BarRenderer *barRenderer, wxDC &dc, wxRect rc,
         Axis *horizAxis, Axis *vertAxis,
         bool vertical, size_t item, CategoryDataset *dataset)
 {
+   // This draws category first. (Builds up each bar)
     FOREACH_SERIE(serie, dataset) {
         // bar geometry params
-        int width;
-        wxCoord shift;
-        double base, value;
+       int width;
+       wxCoord shift;
+       double base, value;
 
-        // get bar geometry
-        GetBarGeometry(dataset, item, serie, width, shift, base, value);
+       // get bar geometry
+       GetBarGeometry( dataset, item, serie, width, shift, base, value );
 
-        double xBase, yBase;
-        double xVal, yVal;
+       double xBase, yBase;
+       double xVal, yVal;
 
-        if (vertical) {
-            xBase = xVal = item;
-            yBase = base;
-            yVal = value;
-        }
-        else {
-            xBase = base;
-            yBase = yVal = item;
-            xVal = value;
-        }
+       if( vertical )
+       {
+          xBase = xVal = item;
+          yBase = base;
+          yVal = value;
+       }
+       else
+       {
+          xBase = base;
+          yBase = yVal = item;
+          xVal = value;
+       }
 
-        // transform base and value to graphics coordinates
-        wxCoord xBaseG = horizAxis->ToGraphics(dc, rc.x, rc.width, xBase);
-        wxCoord yBaseG = vertAxis->ToGraphics(dc, rc.y, rc.height, yBase);
-        wxCoord xG = horizAxis->ToGraphics(dc, rc.x, rc.width, xVal);
-        wxCoord yG = vertAxis->ToGraphics(dc, rc.y, rc.height, yVal);
+       // transform base and value to graphics coordinates
+       wxCoord xBaseG = horizAxis->ToGraphics( dc, rc.x, rc.width, xBase );
+       wxCoord yBaseG = vertAxis->ToGraphics( dc, rc.y, rc.height, yBase );
+       wxCoord xG = horizAxis->ToGraphics( dc, rc.x, rc.width, xVal );
+       wxCoord yG = vertAxis->ToGraphics( dc, rc.y, rc.height, yVal );
 
-        wxRect rcBar;
-        if (vertical) {
-            xBaseG += shift;
-            xG += shift;
+       wxRect rcBar;
+       if( vertical )
+       {
+          xBaseG += shift;
+          xG += shift;
 
-            rcBar.x = wxMin(xBaseG, xG);
-            rcBar.y = wxMin(yBaseG, yG);
-            rcBar.width = width;
-            rcBar.height = ABS(yBaseG - yG);
-        }
-        else {
-            yBaseG += shift;
-            yG += shift;
+          rcBar.x = wxMin( xBaseG, xG );
+          rcBar.y = wxMin( yBaseG, yG );
+          rcBar.width = width;
+          rcBar.height = ABS( yBaseG - yG );
+       }
+       else
+       {
+          yBaseG += shift;
+          yG += shift;
 
-            rcBar.x = wxMin(xBaseG, xG);
-            rcBar.y = wxMin(yBaseG, yG);
-            rcBar.width = ABS(xBaseG - xG);
-            rcBar.height = width;
-        }
+          rcBar.x = wxMin( xBaseG, xG );
+          rcBar.y = wxMin( yBaseG, yG );
+          rcBar.width = ABS( xBaseG - xG );
+          rcBar.height = width;
+       }
 
-        // draw bar
-        Draw( barRenderer, dc, rcBar, serie );
+       // draw bar
+       Draw( barRenderer, dc, rcBar, serie, item );
     }
 }
 
 void 
-BarType::Draw( BarRenderer* barRenderer, wxDC& dc, wxRect& rc, size_t serie )
+BarType::Draw( BarRenderer* barRenderer, wxDC& dc, wxRect& rc, size_t serie, size_t item )
 {
-   // draw bar
-   AreaDraw *barDraw = barRenderer->GetBarDraw( serie );
-   barDraw->Draw( dc, rc );
+   barRenderer->DrawBar( dc, rc, serie, item );
 }
 
 double BarType::GetMinValue(CategoryDataset *dataset)
@@ -275,8 +278,15 @@ void BarRenderer::Draw(wxDC &dc, wxRect rc, Axis *horizAxis, Axis *vertAxis, boo
 {
     for (size_t n = 0; n < dataset->GetCount(); n++)
     {
-        m_barType->Draw(this, dc, rc, horizAxis, vertAxis, vertical, n, dataset);
+       // The bartype preps the draw-context and the drawing rectangle.
+       m_barType->Draw( this, dc, rc, horizAxis, vertAxis, vertical, n, dataset );
     }
+}
+
+void BarRenderer::DrawBar( wxDC& dc, wxRect& rc, size_t serie, size_t category )
+{
+   AreaDraw* areaDraw = GetBarDraw( serie );
+   areaDraw->Draw( dc, rc );
 }
 
 double BarRenderer::GetMinValue(CategoryDataset *dataset)

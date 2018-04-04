@@ -82,7 +82,7 @@ bool PiePlot::HasData()
     return m_dataset != NULL && (m_dataset->GetSerieCount() >= m_serie);
 }
 
-Dataset*
+ClickableShape*
 PiePlot::GetDataAtPoint( wxPoint& pt )
 {
    return nullptr;

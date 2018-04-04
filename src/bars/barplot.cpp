@@ -22,7 +22,7 @@ BarPlot::~BarPlot()
 {
 }
 
-Dataset* 
+ClickableShape*
 BarPlot::GetDataAtPoint( wxPoint& pt )
 {
    for( size_t nData = 0; nData < GetDatasetCount(); nData++ )
@@ -35,7 +35,7 @@ BarPlot::GetDataAtPoint( wxPoint& pt )
          auto result = intRenderer->GetDataAtPoint( pt );
          if( result != nullptr )
          {
-            return nullptr;
+            return result;
          }
       }
    }

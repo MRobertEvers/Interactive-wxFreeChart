@@ -39,7 +39,7 @@ public:
      */
     virtual void Draw(BarRenderer* barRenderer, wxDC &dc, wxRect rc, Axis *horizAxis, Axis *vertAxis, bool vertical, size_t item, CategoryDataset *dataset);
 
-    virtual void Draw( BarRenderer* barRenderer, wxDC& dc, wxRect& rc, size_t serie );
+    virtual void Draw( BarRenderer* barRenderer, wxDC& dc, wxRect& rc, size_t serie, size_t item );
 
     //
     // Called from BarRenderer. Don't call from programs.
@@ -165,6 +165,8 @@ public:
      * @param dataset dataset to be drawn
      */
     virtual void Draw(wxDC &dc, wxRect rc, Axis *horizAxis, Axis *vertAxis, bool vertical, CategoryDataset *dataset);
+
+    virtual void DrawBar( wxDC& dc, wxRect& rc, size_t serie, size_t category );
 
     /**
      * Sets bar type, an object that performs bars drawing.

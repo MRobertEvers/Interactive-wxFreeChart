@@ -1,7 +1,7 @@
 #pragma once
 #include <wx/plot.h>
 
-class Dataset;
+class ClickableShape;
 
 class InteractivePlot
 {
@@ -14,6 +14,6 @@ public:
    * @param pt Point to check
    * @return data drawn at point or nullptr if none.
    */
-   virtual Dataset* GetDataAtPoint( wxPoint& pt ) = 0;
+   virtual ClickableShape* GetDataAtPoint( wxPoint& pt ) = 0;
 };
 

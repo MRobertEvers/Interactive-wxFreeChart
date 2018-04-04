@@ -44,6 +44,8 @@ public:
    */
    void Draw( wxDC &dc, wxRect rc, Axis *horizAxis, Axis *vertAxis, bool vertical, CategoryDataset *dataset );
 
+   virtual void DrawBar( wxDC& dc, wxRect& rc, size_t serie, size_t category );
+
    /**
    * Sets bar type, an object that performs bars drawing.
    * BarRenderer owns this object.
@@ -73,7 +75,7 @@ public:
    * @param serie serie index
    * @return area draw object
    */
-   AreaDraw *GetBarDraw( size_t serie );
+   ClickableShape* GetBarDraw( size_t serie );
 
    double GetMinValue( CategoryDataset *dataset );
    double GetMaxValue( CategoryDataset *dataset );

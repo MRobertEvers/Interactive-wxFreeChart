@@ -6,22 +6,78 @@ class wxPoint;
 #include <wx/drawobject.h>
 #include <wx/wxfreechartdefs.h>
 #include <wx/hashmap.h>
-#include <vector>
+#include <wx/category/categorydataset.h>
+#include <map>
 
 class ClickableData
 {
-   // GetDataset
-   // GetRelevant data.
+public:
+   ClickableData( Dataset* ptData ):m_Dataset(ptData), m_ClickedCategory(0), m_ClickedSeries(0){}
+   virtual ~ClickableData() {};
+
+   virtual void Clicked( size_t series, size_t group )
+   {
+      m_ClickedCategory = group;
+      m_ClickedSeries = series;
+   }
+
+   // Returns the name of the category that the clicked data belonged.
+   virtual wxString GetCategoryName() = 0;
+
+   // Returns the name of the series that the clicked data belongs
+   virtual wxString GetSeriesName() = 0;
+
+   // Returns the sum value of all the categories in the clicked series. (Horizontal counting)
+   virtual double GetSeriesTotal() = 0;
+
+   // Returns the sum value of all series for the clicked category. (Vertical Counting)
+   virtual double GetCategoryTotalOfAllSeries() = 0;
+
+   // Returns the value of the series for the clicked category
+   virtual double GetSeriesValue() = 0;
+
+   virtual Dataset* GetDataset()
+   {
+      return m_Dataset;
+   }
+
+protected:
+   unsigned int m_ClickedCategory; // A group is a category that the series' contain data for.
+   unsigned int m_ClickedSeries; // Series' are the sets of data
+   Dataset* m_Dataset;
 };
+
+class ClickableCategoryData : public ClickableData
+{
+public:
+   // Does not take ownership
+   ClickableCategoryData( CategoryDataset* ptData );
+   ~ClickableCategoryData();
+
+   virtual wxString GetSeriesName();
+   virtual wxString GetCategoryName();
+   virtual double GetSeriesTotal();
+   virtual double GetCategoryTotalOfAllSeries();
+   virtual double GetSeriesValue();
+
+   CategoryDataset* GetDataset()
+   {
+      return ((CategoryDataset*)m_Dataset);
+   }
+};
+
 
 class ClickableShape : public AreaDraw
 {
 public:
+   // TAKES OWNERSHIP OF THE CLICKABLEDATA
    ClickableShape(ClickableData* data);
-   ~ClickableShape();
+   virtual ~ClickableShape();
 
+   // If IsHit returns true, then ClickableData will be configured to the correct data.
    virtual bool IsHit( wxPoint& pt ) = 0;
    virtual void Draw( wxDC &dc, wxRect rc ) = 0;
+   virtual void Draw( wxDC &dc, wxRect rc, size_t serie, size_t category ) = 0;
    virtual void InitDraw() {};
    
    virtual ClickableData* GetData()
@@ -29,8 +85,16 @@ public:
       return m_Data;
    }
 
-private:
-   ClickableData * m_Data;
+protected:
+   ClickableData* m_Data;
+   size_t m_Serie;
+   void DataClicked( size_t serie, size_t category )
+   {
+      if( m_Data != nullptr )
+      {
+         m_Data->Clicked( serie, category );
+      }
+   }
 };
 
 class InertShape : public ClickableShape
@@ -42,7 +106,7 @@ public:
 
    }
 
-   ~InertShape() 
+   virtual ~InertShape() 
    {
       delete m_Area;
    }
@@ -53,6 +117,11 @@ public:
    }
 
    virtual void Draw( wxDC &dc, wxRect rc )
+   {
+      m_Area->Draw( dc, rc );
+   }
+
+   virtual void Draw( wxDC &dc, wxRect rc, size_t, size_t )
    {
       m_Area->Draw( dc, rc );
    }
@@ -68,11 +137,13 @@ class ClickableSemiCircleDraw : public ClickableShape
 public:
    ClickableSemiCircleDraw( wxColour fill, wxColour borderPen, unsigned int iTotalPie,
                             unsigned int iDrawnPie, unsigned int iThisSlice, ClickableData* data );
-   ~ClickableSemiCircleDraw();
+   virtual ~ClickableSemiCircleDraw();
 
    virtual bool IsHit( wxPoint& pt );
 
    virtual void Draw( wxDC &dc, wxRect rc );
+   virtual void Draw( wxDC &dc, wxRect rc, size_t serie, size_t category );
+
 private:
 
    // Its really wasteful to duplicate the rectangle for each semicircle. But I think
@@ -102,17 +173,18 @@ public:
       m_hitBoxes.clear();
    }
 
-   bool IsHit( wxPoint& pt )
+   virtual bool IsHit( wxPoint& pt )
    {
       if( m_hitBoxes.size() == 0 )
       {
          return false;
       }
 
-      for( auto& rect : m_hitBoxes )
+      for( auto& drawn : m_hitBoxes )
       {
-         if( rect.Contains( pt ) )
+         if( drawn.second.Contains( pt ) )
          {
+            DataClicked( drawn.first.first, drawn.first.second );
             return true;
          }
       }
@@ -120,9 +192,22 @@ public:
       return false;
    }
 
-   void AddHitBox( wxRect& rc )
+   virtual void Draw( wxDC &dc, wxRect rc )
    {
-      m_hitBoxes.push_back(rc);
+
+   }
+
+   virtual void Draw( wxDC &dc, wxRect rc, size_t serie, size_t category )
+   {
+      Draw( dc, rc );
+      AddHitBox( rc, serie, category );
+   }
+
+   void AddHitBox( wxRect& rc, size_t serie, size_t category )
+   {
+      // TODO: Tie the data to the hitbox.
+      auto key = std::make_pair( serie, category );
+      m_hitBoxes.insert(std::make_pair(key, rc));
    }
 
    virtual void InitDraw()
@@ -133,7 +218,7 @@ public:
 private:
    // TODO: The particular data is lost since multiple hitboxes are tied
    // to one data. This needs to be rectified.
-   std::vector<wxRect> m_hitBoxes;
+   std::map<std::pair<size_t, size_t>,wxRect> m_hitBoxes;
 };
 
 

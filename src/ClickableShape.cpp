@@ -1,6 +1,68 @@
 #include <wx/ClickableShape.h>
 #include <cmath>
 
+
+ClickableCategoryData::ClickableCategoryData( CategoryDataset* ptData )
+   : ClickableData( ptData )
+{
+   // With a category dataset, you give it a list of categories. (These are the "Horizontal" groups)
+   // Series' have names and they contain a data point for each category.
+}
+
+ClickableCategoryData::~ClickableCategoryData()
+{
+
+}
+
+wxString 
+ClickableCategoryData::GetSeriesName()
+{
+   auto dataset = GetDataset();
+   return dataset->GetSerieName( m_ClickedSeries );
+}
+
+wxString 
+ClickableCategoryData::GetCategoryName()
+{
+   // This would represent a bar in a bar chart.
+   auto dataset = GetDataset();
+   return dataset->GetName( m_ClickedCategory );
+}
+
+double
+ClickableCategoryData::GetSeriesTotal()
+{
+   double iSumRetval = 0;
+   auto dataset = GetDataset();
+   for( size_t category = 0; category < dataset->GetCount(); category++ )
+   {
+      iSumRetval += dataset->GetValue( category, m_ClickedSeries );
+   }
+
+   return iSumRetval;
+}
+
+double
+ClickableCategoryData::GetCategoryTotalOfAllSeries()
+{
+   double iSumRetval = 0;
+   auto dataset = GetDataset();
+   for( size_t series = 0; series < dataset->GetSerieCount(); series++ )
+   {
+      iSumRetval += dataset->GetValue( m_ClickedCategory, series );
+   }
+
+   return iSumRetval;
+}
+
+double
+ClickableCategoryData::GetSeriesValue(  )
+{
+   auto dataset = GetDataset();
+   return dataset->GetValue( m_ClickedCategory, m_ClickedSeries );
+}
+
+
 ClickableShape::ClickableShape( ClickableData* data )
    : m_Data(data)
 {
@@ -121,6 +183,12 @@ ClickableSemiCircleDraw::Draw( wxDC &dc, wxRect rc )
    dc.DrawLine( x0 + radHoriz / 2, y0 + radVert / 2, x1, y1 );
 }
 
+void
+ClickableSemiCircleDraw::Draw( wxDC &dc, wxRect rc, size_t serie, size_t category )
+{
+   Draw( dc, rc );
+}
+
 ClickableRectangleDraw::ClickableRectangleDraw( ClickableData* data )
    : ClickableShape(data)
 {
@@ -147,7 +215,6 @@ void
 ClickableGradientAreaDraw::Draw( wxDC &dc, wxRect rc )
 {
    GradientAreaDraw::Draw( dc, rc );
-   AddHitBox( rc );
 }
 
 ClickableFillAreaDraw::ClickableFillAreaDraw( wxPen borderPen, wxBrush fillBrush, ClickableData* data )
@@ -169,7 +236,6 @@ void
 ClickableFillAreaDraw::Draw( wxDC &dc, wxRect rc )
 {
    FillAreaDraw::Draw( dc, rc );
-   AddHitBox( rc );
 }
 
 ClickableAreaCollection::ClickableAreaCollection()

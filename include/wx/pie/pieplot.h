@@ -62,7 +62,7 @@ public:
     //
     // InteractivePlot
     //
-    virtual Dataset* GetDataAtPoint( wxPoint& pt );
+    virtual ClickableShape* GetDataAtPoint( wxPoint& pt );
 
     //
     // DatasetObserver

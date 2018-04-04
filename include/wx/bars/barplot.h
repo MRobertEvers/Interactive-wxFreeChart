@@ -35,7 +35,7 @@ public:
     //
     // InteractivePlot
     //
-    virtual Dataset* GetDataAtPoint( wxPoint& pt );
+    virtual ClickableShape* GetDataAtPoint( wxPoint& pt );
 
 protected:
     virtual bool AcceptAxis(Axis *axis);

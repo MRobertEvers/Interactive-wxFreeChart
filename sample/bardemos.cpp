@@ -398,9 +398,11 @@ public:
 
         // Some eye-candy: gradient bars
         renderer->SetBarDraw(0, new ClickableGradientAreaDraw(DEFAULT_BAR_FILL_COLOUR_0, DEFAULT_BAR_FILL_COLOUR_0, 
-                                                        DEFAULT_BAR_FILL_COLOUR_0.ChangeLightness(150), wxEAST, nullptr));
+                                                              DEFAULT_BAR_FILL_COLOUR_0.ChangeLightness(150), wxEAST,
+                                                              new ClickableCategoryData( dataset )));
         renderer->SetBarDraw(1, new ClickableGradientAreaDraw(DEFAULT_BAR_FILL_COLOUR_1, DEFAULT_BAR_FILL_COLOUR_1,
-                                                        DEFAULT_BAR_FILL_COLOUR_1.ChangeLightness(150), wxEAST, nullptr ));
+                                                              DEFAULT_BAR_FILL_COLOUR_1.ChangeLightness(150), wxEAST, 
+                                                              new ClickableCategoryData( dataset )));
 
         // assign renderer to dataset
         dataset->SetRenderer((BarRenderer*)renderer);
