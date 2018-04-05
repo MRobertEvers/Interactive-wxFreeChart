@@ -29,16 +29,26 @@
 
 #include "democollection.h"
 #include <wx/InteractivePlot.h>
+#include <wx/tooltips.h>
+#include <wx/ClickableShape.h>
 
 class ClickMode : public ChartPanelMode
 {
 public:
-   ClickMode() {}
+   ClickMode() : m_ToolTip(nullptr){}
    ~ClickMode() {}
 
    void Init( wxChartPanel* panel )
    {
       m_Panel = panel;
+   }
+   
+   void temp_draw_tooltip( wxPaintDC& dc )
+   {
+      if( m_ToolTip != nullptr )
+      {
+         m_ToolTip->Blit( dc, m_LastPoint );
+      }
    }
 
    void ChartEnterWindow()
@@ -51,7 +61,18 @@ public:
       auto intPlot = dynamic_cast<InteractivePlot*>(plot);
       if( intPlot != nullptr )
       {
-         intPlot->GetDataAtPoint( pt );
+         auto data = intPlot->GetDataAtPoint( pt );
+         if( data != nullptr )
+         {
+            auto myData = data->GetData();
+            m_LastPoint = pt;
+
+            // TODO: This is proof of concept temp. Change this.
+            m_ToolTip = new TextTooltip( {
+               myData->GetCategoryName(),
+               wxString(std::to_string(myData->GetSeriesValue()))
+               } );
+         }
       }
    }
 
@@ -73,6 +94,8 @@ public:
 
 private:
    wxChartPanel* m_Panel;
+   TextTooltip* m_ToolTip;
+   wxPoint m_LastPoint;
 };
 
 /**

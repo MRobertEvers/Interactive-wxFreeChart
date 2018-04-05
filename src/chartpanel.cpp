@@ -216,6 +216,7 @@ void wxChartPanel::OnPaint(wxPaintEvent &WXUNUSED(ev))
 
     if (m_chart != NULL) {
         dc.DrawBitmap(m_backBitmap, 0, 0, false);
+        m_mode->temp_draw_tooltip( dc );
     }
     else {
         dc.SetBrush(*wxTheBrushList->FindOrCreateBrush(GetBackgroundColour()));

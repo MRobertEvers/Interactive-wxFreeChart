@@ -43,6 +43,8 @@ public:
     // IY: Virtual destructor needed otherwise behaviour is undefined.
     virtual ~ChartPanelMode() {}
     virtual void Init(wxChartPanel *chartPanel) = 0;
+
+    virtual void temp_draw_tooltip( wxPaintDC& dc ) = 0;
 };
 
 
