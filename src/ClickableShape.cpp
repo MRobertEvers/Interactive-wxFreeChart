@@ -289,15 +289,19 @@ ClickableShape*
 ClickableAreaCollection::GetDataAtPoint( wxPoint& pt )
 {
    ClickableAreaDrawMap::iterator it;
+
+   // Assumes that the areas were drawn in order.
+   ClickableShape* ptFoundShape = nullptr;
+
    bool bFoundHit = false;
    for( it = m_areas.begin(); it != m_areas.end(); ++it )
    {
       bFoundHit = it->second->IsHit( pt );
       if( bFoundHit )
       {
-         return it->second;
+         ptFoundShape = it->second;
       }
    }
 
-   return NULL;
+   return ptFoundShape;
 }

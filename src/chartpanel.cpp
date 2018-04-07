@@ -105,6 +105,7 @@ wxChartPanel::~wxChartPanel()
 {
     SAFE_REMOVE_OBSERVER(this, m_chart);
     wxDELETE(m_chart);
+    wxDELETE( m_mode );
 }
 
 void wxChartPanel::SetChart(Chart *chart)

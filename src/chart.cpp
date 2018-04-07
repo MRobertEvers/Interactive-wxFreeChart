@@ -61,6 +61,7 @@ Chart::~Chart()
     wxDELETE(m_background);
     wxDELETE(m_header);
     wxDELETE(m_footer);
+    wxDELETE( m_Tooltip );
 }
 
 void Chart::PlotNeedRedraw(Plot *WXUNUSED(plot))

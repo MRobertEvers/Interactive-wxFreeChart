@@ -41,6 +41,7 @@ public:
    virtual ~TextTooltip();
 
    virtual void Update( wxPoint& pt, std::vector<wxString> textList );
+   virtual wxSize GetSuggestedTextExtent( wxString& szText, wxDC& dc, wxSize& margins = wxSize(3, 1));
    virtual void RedrawBackBitmap();
    virtual void ResizeBackBitmap( wxSize size );
 
