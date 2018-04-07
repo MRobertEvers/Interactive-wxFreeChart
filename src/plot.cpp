@@ -41,10 +41,14 @@ void Plot::Draw(ChartDC &cdc, wxRect rc, PlotDrawMode mode)
 
     if (mode == PLOT_DRAW_DATA || mode == PLOT_DRAW_ALL)
     {
-        if (HasData())
-            DrawData(cdc,rc);
-        else
-            DrawNoDataMessage(cdc.GetDC(), rc);
+       if( HasData() )
+       {
+          DrawData(cdc,rc);
+       }
+       else
+       {
+          DrawNoDataMessage(cdc.GetDC(), rc);
+       }
     }
         
 }

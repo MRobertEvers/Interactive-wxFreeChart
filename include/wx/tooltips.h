@@ -17,26 +17,30 @@
 
 class ChartDC;
 
+// Usually drawn by the chart object.
 class WXDLLIMPEXP_FREECHART Tooltip
 {
 public:
-   Tooltip();
+   Tooltip( wxPoint& pt );
    virtual ~Tooltip();
 
    virtual void RedrawBackBitmap() = 0;
    virtual void ResizeBackBitmap( wxSize size ) = 0;
+   virtual wxPoint GetDataDrawPoint();
    virtual void Blit( wxDC &cdc, wxPoint &rc );
 
 protected:
    wxBitmap m_backBitmap;
+   wxPoint m_tooltipItemPoint;
 };
 
 class WXDLLIMPEXP_FREECHART TextTooltip : public Tooltip
 {
 public:
-   TextTooltip(std::vector<wxString> textList);
+   TextTooltip( wxPoint& pt, std::vector<wxString> textList);
    virtual ~TextTooltip();
 
+   virtual void Update( wxPoint& pt, std::vector<wxString> textList );
    virtual void RedrawBackBitmap();
    virtual void ResizeBackBitmap( wxSize size );
 

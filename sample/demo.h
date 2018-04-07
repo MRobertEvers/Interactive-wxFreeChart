@@ -35,19 +35,26 @@
 class ClickMode : public ChartPanelMode
 {
 public:
-   ClickMode() : m_ToolTip(nullptr){}
+   ClickMode() {}
    ~ClickMode() {}
 
    void Init( wxChartPanel* panel )
    {
       m_Panel = panel;
    }
-   
-   void temp_draw_tooltip( wxPaintDC& dc )
+  
+   void ShowToolTip(ClickableShape* dataShape)
    {
-      if( m_ToolTip != nullptr )
+      if( dataShape != nullptr )
       {
-         m_ToolTip->Blit( dc, m_LastPoint );
+         auto myData = dataShape->GetData();
+         m_Panel->GetChart()->SetTooltip(new TextTooltip(m_LastPoint,
+            {
+               myData->GetCategoryName(),
+               wxString( std::to_string( myData->GetSeriesValue() ) )
+            }
+         ) );
+         m_Panel->ChartChanged(nullptr);
       }
    }
 
@@ -57,22 +64,14 @@ public:
 
    void ChartMouseDown( wxPoint &pt, int key )
    {
+      m_LastPoint = pt;
+
       auto plot = m_Panel->GetChart()->GetPlot();
       auto intPlot = dynamic_cast<InteractivePlot*>(plot);
       if( intPlot != nullptr )
       {
          auto data = intPlot->GetDataAtPoint( pt );
-         if( data != nullptr )
-         {
-            auto myData = data->GetData();
-            m_LastPoint = pt;
-
-            // TODO: This is proof of concept temp. Change this.
-            m_ToolTip = new TextTooltip( {
-               myData->GetCategoryName(),
-               wxString(std::to_string(myData->GetSeriesValue()))
-               } );
-         }
+         ShowToolTip(data);
       }
    }
 
@@ -94,7 +93,6 @@ public:
 
 private:
    wxChartPanel* m_Panel;
-   TextTooltip* m_ToolTip;
    wxPoint m_LastPoint;
 };
 

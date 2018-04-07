@@ -19,7 +19,7 @@
 #include <wx/areadraw.h>
 
 #include <wx/axis/axis.h>
-
+#include <wx/tooltips.h>
 #include <wx/title.h>
 
 class WXDLLIMPEXP_FREECHART Chart;
@@ -76,11 +76,19 @@ public:
     }
 
     /**
-     * Draws chart.
+     * Draws chart. Header, footer, and plot area.
+     * Also Draws tooltip.
      * @param dc device context
      * @param rc rectangle where to draw chart
      */
     void Draw(ChartDC& dc, wxRect& rc, bool antialias = false);
+
+    /**
+    * Draws tooltip to dc.
+    * ToolTip should know where to draw itself.
+    * @param dc device context
+    */
+    void DrawTooltip( ChartDC& dc );
 
     /**
      * Sets chart background.
@@ -95,6 +103,17 @@ public:
     AreaDraw* GetBackground()
     {
         return m_background;
+    }
+
+    void SetTooltip( Tooltip* tip )
+    {
+       if( m_Tooltip != nullptr && tip != m_Tooltip )
+       {
+          delete m_Tooltip;
+          m_Tooltip = nullptr;
+       }
+
+       m_Tooltip = tip;
     }
 
     /**
@@ -164,6 +183,7 @@ private:
     void Init(Plot* plot, Header* header = NULL, Footer* footer = NULL);
 
     Plot *m_plot;
+    Tooltip* m_Tooltip;
     AreaDraw *m_background;
     Header* m_header;
     Footer* m_footer;

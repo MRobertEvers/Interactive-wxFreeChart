@@ -20,6 +20,7 @@ ChartObserver::~ChartObserver()
 }
 
 Chart::Chart(Plot *plot, const wxString &title)
+   : m_Tooltip(nullptr)
 {
     Init(plot, new Header(TextElement(title, wxALIGN_CENTRE_HORIZONTAL, wxFontInfo(14))));
 }
@@ -168,4 +169,15 @@ void Chart::Draw(ChartDC &cdc, wxRect &rc, bool antialias)
     m_plot->Draw(cdc, rc, PLOT_DRAW_BACKGROUND);
     
     m_plot->Draw(cdc, rc, PLOT_DRAW_DATA);
+
+    DrawTooltip( cdc );
+}
+
+void 
+Chart::DrawTooltip( ChartDC& dc )
+{
+   if( m_Tooltip != nullptr )
+   {
+      m_Tooltip->Blit( dc.GetDC(), m_Tooltip->GetDataDrawPoint() );
+   }
 }

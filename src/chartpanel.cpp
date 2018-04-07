@@ -214,11 +214,12 @@ void wxChartPanel::OnPaint(wxPaintEvent &WXUNUSED(ev))
     const wxRect &rc = GetClientRect();
 
 
-    if (m_chart != NULL) {
+    if (m_chart != NULL)
+    {
         dc.DrawBitmap(m_backBitmap, 0, 0, false);
-        m_mode->temp_draw_tooltip( dc );
     }
-    else {
+    else 
+    {
         dc.SetBrush(*wxTheBrushList->FindOrCreateBrush(GetBackgroundColour()));
         dc.SetPen(*wxThePenList->FindOrCreatePen(GetBackgroundColour(), 1, wxPENSTYLE_SOLID));
         dc.DrawRectangle(rc);
