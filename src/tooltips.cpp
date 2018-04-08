@@ -70,11 +70,13 @@ TextTooltip::RedrawBackBitmap()
    dc.SetBackground( *wxTRANSPARENT_BRUSH );
    dc.Clear();
 
+   wxSize margins( 3, 1 );
+
    unsigned int iStartPoint = 0;
    unsigned int iLargestExtent = 0;
    for( auto& text : m_ToolTipText )
    {
-      auto Extent = GetSuggestedTextExtent( text, mdc );// mdc.GetTextExtent( text );
+      auto Extent = GetSuggestedTextExtent( text, mdc, margins );
       auto iExtent = Extent.GetWidth();
       if( iExtent > iLargestExtent )
       {
@@ -83,7 +85,7 @@ TextTooltip::RedrawBackBitmap()
       iStartPoint += Extent.GetHeight();
    }
 
-   mdc.SetBrush( wxBrush( wxColour( 35, 35, 35, 128 ) ) );
+   mdc.SetBrush( wxBrush( wxColour( 135, 135, 135, 128 ) ) );
 
    mdc.SetPen( *wxBLACK_PEN );
 
@@ -94,7 +96,7 @@ TextTooltip::RedrawBackBitmap()
    for( auto& text : m_ToolTipText )
    {
       mdc.DrawText( text, wxPoint( 1, iStartPoint ) );
-      iStartPoint += mdc.GetTextExtent( text ).GetHeight();
+      iStartPoint += mdc.GetTextExtent( text ).GetHeight() + margins.GetHeight();
    }
 
    dc.SelectObject( wxNullBitmap );
