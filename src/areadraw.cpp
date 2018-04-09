@@ -7,6 +7,37 @@
 // Licence:    wxWidgets licence
 /////////////////////////////////////////////////////////////////////////////
 
+#include <wx/math.h>
+#include <wx/wxprec.h>
+
+/*
+* TODO Initial quick and dirty. Must be rewritten.
+*/
+
+static void Rotate( wxCoord &x, wxCoord &y, wxCoord xc, wxCoord yc, double rad, double angle )
+{
+   x = (wxCoord)(rad * cos( angle ) + xc);
+   y = (wxCoord)(-rad * sin( angle ) + yc);
+}
+
+static void EllipticEdge( wxCoord x, wxCoord y, wxCoord width, wxCoord height, double angle, wxCoord &outX, wxCoord &outY )
+{
+   double degs = angle * M_PI / 180;
+
+   double w = width;
+   double h = height;
+
+   outX = (wxCoord)(w * cos( degs ) / 2 + x + w / 2);
+   outY = (wxCoord)(-h * sin( degs ) / 2 + y + h / 2);
+}
+
+static double PointDist( wxPoint pt1, wxPoint pt2 )
+{
+   double x = pt1.x - pt2.x;
+   double y = pt1.y - pt2.y;
+   return std::sqrt( x*x + y * y );
+}
+
 #include <wx/areadraw.h>
 
 AreaDraw::AreaDraw()
@@ -52,6 +83,80 @@ void FillAreaDraw::Draw(wxDC &dc, wxRect rc)
     dc.SetPen(m_borderPen);
     dc.SetBrush(m_fillBrush);
     dc.DrawRectangle(rc);
+}
+
+SemiCircleAreaDraw::SemiCircleAreaDraw( wxPen borderPen, wxBrush fillBrush )
+   : FillAreaDraw(borderPen, fillBrush)
+{
+
+}
+
+SemiCircleAreaDraw::SemiCircleAreaDraw( wxColour borderColour, wxColour fillColour )
+   : FillAreaDraw(borderColour, fillColour)
+{
+
+}
+ 
+SemiCircleAreaDraw::~SemiCircleAreaDraw()
+{
+
+}
+
+void 
+SemiCircleAreaDraw::Draw( wxDC &dc, SemiCircleAreaType& areaTypeData)//wxPoint& center, double arcStart, double arcEnd, double radius )
+{
+   wxPoint& center = areaTypeData.m_Point;
+   double arcStart = areaTypeData.m_ArcStart; 
+   double arcLength = areaTypeData.m_ArcLength;
+   double radius = areaTypeData.m_Radius;
+
+   // THESE SHOULD ALWAYS BE THE SAME.
+   // Draw the slice.
+   int radHoriz = radius;
+   int radVert = (int)(radHoriz);
+
+   // These specify upper left corner of the rectangle that contains the pie chart.
+   wxCoord x0 = center.x;
+   wxCoord y0 = center.y;
+
+   double angle1 = arcStart;
+   double angle2 = arcStart + arcLength;
+
+   dc.SetPen( m_borderPen );
+   dc.SetBrush( m_fillBrush );
+   dc.DrawEllipticArc( x0, y0, radHoriz, radVert, angle1, angle2 );
+
+   // draw edges
+   dc.SetPen( m_borderPen );
+   dc.SetBrush( wxNoBrush );
+
+   wxCoord x1, y1;
+   EllipticEdge( x0, y0, radHoriz, radVert, angle1, x1, y1 );
+   dc.DrawLine( x0 + radHoriz / 2, y0 + radVert / 2, x1, y1 );
+
+   EllipticEdge( x0, y0, radHoriz, radVert, angle2, x1, y1 );
+   dc.DrawLine( x0 + radHoriz / 2, y0 + radVert / 2, x1, y1 );
+}
+
+void
+SemiCircleAreaDraw::GetPieArcValues( wxRect& rc, unsigned int iTotalPie, unsigned int iDrawnPie, unsigned int iThisSlice,
+                                     wxPoint& ptUpperLeft, unsigned int& arcStart, unsigned int& arcEnd, unsigned int& radies )
+{
+   radies = (int)(0.8 * wxMin( rc.width, rc.height ));
+   ptUpperLeft = wxPoint( rc.x + (rc.width - radies) / 2, rc.y + (rc.height - radies) / 2 );
+   arcStart = (360 * iDrawnPie) / iTotalPie;
+   arcEnd = (360 * iThisSlice) / iTotalPie;
+}
+
+SemiCircleAreaType
+SemiCircleAreaDraw::GetPieArcValues( wxRect& rc, unsigned int iTotalPie,
+                                     unsigned int iDrawnPie, unsigned int iThisSlice )
+{
+   wxPoint pt;
+   unsigned int arcstart, arclength, radius;
+   GetPieArcValues( rc, iTotalPie, iDrawnPie, iThisSlice, pt, arcstart, arclength, radius );
+   
+   return SemiCircleAreaType( pt, arcstart, arclength, radius );
 }
 
 GradientAreaDraw::GradientAreaDraw(wxPen borderPen, wxColour colour1, wxColour colour2, wxDirection dir)

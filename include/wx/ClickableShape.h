@@ -7,7 +7,56 @@ class wxPoint;
 #include <wx/wxfreechartdefs.h>
 #include <wx/hashmap.h>
 #include <wx/category/categorydataset.h>
+#include <wx/sharedptr.h>
 #include <map>
+
+// One of these should be made for each drawn shape.
+// Although this is independent of how the shape is drawn,
+// they usually match exactly.
+class HitBox
+{
+public:
+   HitBox() {};
+   virtual ~HitBox() {};
+
+   virtual bool IsHit( wxPoint& pt ) = 0;
+};
+
+class RectangleHitBox : public HitBox
+{
+public:
+   RectangleHitBox( wxRect& rect ) : m_Rect( rect ) {};
+   virtual ~RectangleHitBox() {};
+
+   virtual bool IsHit( wxPoint& pt )
+   {
+      return m_Rect.Contains( pt );
+   }
+
+private:
+   wxRect m_Rect;
+};
+
+class SemiCircleHitBox : public HitBox
+{
+public:
+   SemiCircleHitBox( wxPoint& center, double arcStart, double arcEnd, double radius )
+      : Center( center ), ArcStart( arcStart ), ArcEnd( arcEnd ), ArcRadius( radius )
+   {
+   };
+   virtual ~SemiCircleHitBox() {};
+
+   virtual bool IsHit( wxPoint& pt )
+   {
+      return false;
+   }
+
+private:
+   wxPoint Center;
+   double ArcStart;
+   double ArcEnd;
+   double ArcRadius;
+};
 
 class ClickableData
 {
@@ -66,7 +115,10 @@ public:
    }
 };
 
-
+// The idea here is that this ties 3 things together.
+// The drawing, the data, and "where" the data is.
+// (Area Draw), (Clickable Data), (Hit Boxes)
+// Hit boxes must be handled in derived classes.
 class ClickableShape : public AreaDraw
 {
 public:
@@ -76,8 +128,8 @@ public:
 
    // If IsHit returns true, then ClickableData will be configured to the correct data.
    virtual bool IsHit( wxPoint& pt ) = 0;
-   virtual void Draw( wxDC &dc, wxRect rc ) = 0;
-   virtual void Draw( wxDC &dc, wxRect rc, size_t serie, size_t category ) = 0;
+   virtual void Draw( wxDC &dc, wxRect rc ) = 0; // Called by a non-clickable renderer
+   virtual void Draw( wxDC &dc, wxRect rc, size_t serie, size_t category ) = 0; // Called by a clickable renderer.
    virtual void InitDraw() {};
    
    virtual ClickableData* GetData()
@@ -95,6 +147,53 @@ protected:
          m_Data->Clicked( serie, category );
       }
    }
+};
+
+class MultiClickableShape : public ClickableShape
+{
+public:
+   MultiClickableShape( ClickableData* data ) : ClickableShape( data ) {};
+   virtual ~MultiClickableShape() {};
+
+   virtual bool IsHit( wxPoint& pt )
+   {
+      if( m_hitBoxes.size() == 0 )
+      {
+         return false;
+      }
+
+      for( auto& drawn : m_hitBoxes )
+      {
+         if( drawn.second->IsHit( pt ) )
+         {
+            DataClicked( drawn.first.first, drawn.first.second );
+            return true;
+         }
+      }
+
+      return false;
+   }
+
+   void ClearHitBoxes()
+   {
+      m_hitBoxes.clear();
+   }
+
+   virtual void InitDraw()
+   {
+      ClearHitBoxes();
+   }
+
+   // Takes ownership of hitbox.
+   void AddHitBox( HitBox* ptHitBox, size_t serie, size_t category ) 
+   {
+      // TODO: Tie the data to the hitbox.
+      auto key = std::make_pair( serie, category );
+      m_hitBoxes.insert( std::make_pair( key, ptHitBox ) );
+   };
+
+private:
+   std::map<std::pair<size_t, size_t>, wxSharedPtr<HitBox>> m_hitBoxes;
 };
 
 class InertShape : public ClickableShape
@@ -132,7 +231,7 @@ private:
 
 
 
-class ClickableSemiCircleDraw : public ClickableShape
+class ClickableSemiCircleDraw : public MultiClickableShape
 {
 public:
    ClickableSemiCircleDraw( wxColour fill, wxColour borderPen, unsigned int iTotalPie,
@@ -155,70 +254,24 @@ private:
    unsigned int m_AlreadyEatenPie;
    unsigned int m_DrawingPie;
    float m_ellipticAspect;
-
-   wxPoint m_Center;
-   double m_Radius;
-   double m_AngleStart;
-   double m_AngleEnd;
 };
 
-class ClickableRectangleDraw : public ClickableShape
+class ClickableRectangleDraw : public MultiClickableShape
 {
 public:
    ClickableRectangleDraw( ClickableData* data );
    ~ClickableRectangleDraw();
 
-   void ClearHitBoxes()
-   {
-      m_hitBoxes.clear();
-   }
-
-   virtual bool IsHit( wxPoint& pt )
-   {
-      if( m_hitBoxes.size() == 0 )
-      {
-         return false;
-      }
-
-      for( auto& drawn : m_hitBoxes )
-      {
-         if( drawn.second.Contains( pt ) )
-         {
-            DataClicked( drawn.first.first, drawn.first.second );
-            return true;
-         }
-      }
-
-      return false;
-   }
-
    virtual void Draw( wxDC &dc, wxRect rc )
    {
-
+      // Empty virtual function. SHould be overloaded.
    }
 
    virtual void Draw( wxDC &dc, wxRect rc, size_t serie, size_t category )
    {
       Draw( dc, rc );
-      AddHitBox( rc, serie, category );
+      AddHitBox( new RectangleHitBox( rc ), serie, category );
    }
-
-   void AddHitBox( wxRect& rc, size_t serie, size_t category )
-   {
-      // TODO: Tie the data to the hitbox.
-      auto key = std::make_pair( serie, category );
-      m_hitBoxes.insert(std::make_pair(key, rc));
-   }
-
-   virtual void InitDraw()
-   { 
-      ClearHitBoxes(); 
-   }
-
-private:
-   // TODO: The particular data is lost since multiple hitboxes are tied
-   // to one data. This needs to be rectified.
-   std::map<std::pair<size_t, size_t>,wxRect> m_hitBoxes;
 };
 
 

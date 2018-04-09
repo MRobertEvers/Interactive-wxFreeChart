@@ -15,6 +15,31 @@
 
 #include <wx/drawobject.h>
 
+// Base class for areatypes
+class AreaType
+{
+public:
+   AreaType() {};
+   virtual ~AreaType() {};
+};
+
+class SemiCircleAreaType : public AreaType
+{
+public:
+   SemiCircleAreaType( wxPoint& ptUpperLeft, unsigned int& arcStart, unsigned int& arcEnd, unsigned int& radies )
+      : m_Point(ptUpperLeft), m_ArcStart(arcStart), m_ArcLength(arcEnd), m_Radius(radies)
+   {
+
+   };
+
+   virtual ~SemiCircleAreaType() {};
+
+   wxPoint m_Point;
+   unsigned int m_ArcStart;
+   unsigned int m_ArcLength;
+   unsigned int m_Radius;
+};
+
 /**
  * Base class for drawing area background.
  * Areas can be data area in Plot, chart background, legend area, bars, etc...
@@ -31,7 +56,11 @@ public:
      * @param dc device context
      * @param rc rectangle of area to draw
      */
+    // TODO: Change this to a more general function.
     virtual void Draw(wxDC &dc, wxRect rc) = 0;
+
+    // Don't force overload to maintain backwards compatibility.
+    virtual void Draw( wxDC& dc, AreaType& areaTypeData ) {};
 };
 
 /**
@@ -106,9 +135,34 @@ public:
         FireNeedRedraw();
     }
 
-private:
+protected:
     wxBrush m_fillBrush;
     wxPen m_borderPen;
+};
+
+class WXDLLIMPEXP_FREECHART SemiCircleAreaDraw : public FillAreaDraw
+{
+public:
+   /**
+   * Constructs new fill area draw.
+   * @param borderPen pen to draw area border
+   * @param fillBrush brush to fill area
+   */
+   SemiCircleAreaDraw( wxPen borderPen = *wxBLACK_PEN, wxBrush fillBrush = *wxWHITE_BRUSH );
+
+   SemiCircleAreaDraw( wxColour borderColour, wxColour fillColour );
+
+   virtual ~SemiCircleAreaDraw();
+
+   // Overload the rectangle draw function.. we dont want that.
+   virtual void Draw( wxDC &dc, wxRect rc ) {};
+
+   virtual void Draw( wxDC& dc, SemiCircleAreaType& areaTypeData );
+
+   virtual void GetPieArcValues( wxRect& rc, unsigned int iTotalPie, unsigned int iDrawnPie, unsigned int iThisSlice,
+                                 wxPoint& ptUpperLeft, unsigned int& arcStart, unsigned int& arcEnd, unsigned int& radies );
+
+   virtual SemiCircleAreaType GetPieArcValues( wxRect& rc, unsigned int iTotalPie, unsigned int iDrawnPie, unsigned int iThisSlice );
 };
 
 /**

@@ -204,7 +204,6 @@ protected:
 
 private:
     AreaDrawCollection m_barDraws;
-
 };
 
 #endif /*BARRENDERER_H_*/

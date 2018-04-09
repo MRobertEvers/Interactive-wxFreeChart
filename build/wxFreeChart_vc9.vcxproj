@@ -235,6 +235,7 @@
     <ClInclude Include="..\include\wx\ohlc\ohlcrenderer.h" />
     <ClInclude Include="..\include\wx\ohlc\ohlcsimpledataset.h" />
     <ClInclude Include="..\include\wx\pie\pieplot.h" />
+    <ClInclude Include="..\include\wx\pie\PieRenderer.h" />
     <ClInclude Include="..\include\wx\plot.h" />
     <ClInclude Include="..\include\wx\refobject.h" />
     <ClInclude Include="..\include\wx\symbol.h" />
@@ -300,6 +301,7 @@
     <ClCompile Include="..\src\ohlc\ohlcrenderer.cpp" />
     <ClCompile Include="..\src\ohlc\ohlcsimpledataset.cpp" />
     <ClCompile Include="..\src\pie\pieplot.cpp" />
+    <ClCompile Include="..\src\pie\PieRenderer.cpp" />
     <ClCompile Include="..\src\plot.cpp" />
     <ClCompile Include="..\src\renderer.cpp" />
     <ClCompile Include="..\src\symbol.cpp" />
