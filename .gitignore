@@ -5,6 +5,7 @@
 
 build/vc_mswud/
 sample/vc_mswud/
+lib/
 
 # User-specific files
 *.suo
