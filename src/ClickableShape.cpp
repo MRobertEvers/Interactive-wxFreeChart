@@ -11,7 +11,7 @@ static double PointDist( wxPoint pt1, wxPoint pt2 )
 bool 
 SemiCircleHitBox::IsHit( wxPoint& pt )
 {
-   if( PointDist( pt, m_Area.GetCenter() ) > m_Area.m_Diameter )
+   if( PointDist( pt, m_Area.GetCenter() ) > (m_Area.m_Diameter/2) )
    {
       return false;
    }
