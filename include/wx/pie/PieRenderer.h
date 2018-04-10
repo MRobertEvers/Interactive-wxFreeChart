@@ -3,6 +3,7 @@
 
 #include <wx/wxprec.h>
 #include <wx/category/categorydataset.h>
+#include <wx/areadraw.h>
 
 class WXDLLIMPEXP_FREECHART PieRenderer : public Renderer
 {
@@ -20,7 +21,12 @@ public:
    */
    virtual void Draw( wxDC &dc, wxRect rc, CategoryDataset *dataset );
 
-   virtual SemiCircleAreaDraw* GetAreaDraw( size_t serie );
+   // The draw function passes the "Drawing" act back up to the renderer so it can 
+   // call the correct version of the draw function.
+   virtual void DrawShape( wxDC& dc, SemiCircleAreaType& area, size_t serie, size_t category );
+
+   virtual void SetAreaDraw( size_t serie, AreaDraw* area );
+   virtual AreaDraw* GetAreaDraw( size_t serie );
 
 private:
    AreaDrawCollection m_PieDraws;

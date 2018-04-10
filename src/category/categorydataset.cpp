@@ -34,7 +34,8 @@ double CategoryDataset::GetMinValue(bool WXUNUSED(verticalAxis))
     if (GetRenderer() == NULL) {
         return 0;
     }
-    return GetRenderer()->GetMinValue(this);
+    // TODO: THIS IS A BAD CAST DO NOT TRUST!!!
+    return ((BarRenderer*)GetRenderer())->GetMinValue(this);
 }
 
 double CategoryDataset::GetMaxValue(bool WXUNUSED(verticalAxis))
@@ -42,7 +43,7 @@ double CategoryDataset::GetMaxValue(bool WXUNUSED(verticalAxis))
     if (GetRenderer() == NULL) {
         return 0;
     }
-    return GetRenderer()->GetMaxValue(this);
+    return ((BarRenderer*)GetRenderer())->GetMaxValue(this);
 }
 
 double CategoryDataset::GetX(size_t index, size_t WXUNUSED(serie))

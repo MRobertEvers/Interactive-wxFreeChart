@@ -28,7 +28,8 @@ BarPlot::GetDataAtPoint( wxPoint& pt )
    for( size_t nData = 0; nData < GetDatasetCount(); nData++ )
    {
       CategoryDataset *dataset = (CategoryDataset *)GetDataset( nData );
-      BarRenderer *renderer = dataset->GetRenderer();
+      // TODO: Check Cast
+      BarRenderer *renderer = (BarRenderer*)dataset->GetRenderer();
       auto intRenderer = dynamic_cast<ClickableBarRenderer*>(renderer);
       if( intRenderer != nullptr )
       {
@@ -58,7 +59,7 @@ void BarPlot::DrawDatasets(wxDC &dc, wxRect rc)
 {
     for (size_t nData = 0; nData < GetDatasetCount(); nData++) {
         CategoryDataset *dataset = (CategoryDataset *) GetDataset(nData);
-        BarRenderer *renderer = dataset->GetRenderer();
+        BarRenderer *renderer = (BarRenderer*)dataset->GetRenderer();
         wxCHECK_RET(renderer != NULL, wxT("no renderer for data"));
 
         Axis *vertAxis = GetDatasetVerticalAxis(dataset);

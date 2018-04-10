@@ -11,29 +11,10 @@
 #include <wx/drawutils.h>
 #include <wx/pie/PieRenderer.h>
 #include <wx/drawobject.h>
+#include <wx/ClickableRenderer.h>
 
 #include <math.h>
 
-/*
- * TODO Initial quick and dirty. Must be rewritten.
- */
-
-static void Rotate(wxCoord &x, wxCoord &y, wxCoord xc, wxCoord yc, double rad, double angle)
-{
-    x = (wxCoord) (rad * cos(angle) + xc);
-    y = (wxCoord) (-rad * sin(angle) + yc);
-}
-
-static void EllipticEgde(wxCoord x, wxCoord y, wxCoord width, wxCoord height, double angle, wxCoord &outX, wxCoord &outY)
-{
-    double degs = angle * M_PI / 180;
-
-    double w = width;
-    double h = height;
-
-    outX = (wxCoord) (w * cos(degs) / 2 + x + w / 2);
-    outY = (wxCoord) (-h * sin(degs) / 2 + y + h / 2);
-}
 
 PiePlot::PiePlot()
 {
@@ -94,6 +75,19 @@ bool PiePlot::HasData()
 ClickableShape*
 PiePlot::GetDataAtPoint( wxPoint& pt )
 {
+   CategoryDataset *dataset = (CategoryDataset *)m_dataset;
+   // TODO: Check cast
+   PieRenderer *renderer = (PieRenderer*)dataset->GetRenderer();
+   auto intRenderer = dynamic_cast<ClickablePieRenderer*>(renderer);
+   if( intRenderer != nullptr )
+   {
+      auto result = intRenderer->GetDataAtPoint( pt );
+      if( result != nullptr )
+      {
+         return result;
+      }
+   }
+
    return nullptr;
 }
 
@@ -170,6 +164,5 @@ void PiePlot::DrawData(ChartDC& cdc, wxRect rc)
 
     PieRenderer* renderer = (PieRenderer*)m_dataset->GetRenderer();
     renderer->Draw( dc, rc, m_dataset );
-    
 }
 

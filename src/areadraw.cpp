@@ -31,13 +31,6 @@ static void EllipticEdge( wxCoord x, wxCoord y, wxCoord width, wxCoord height, d
    outY = (wxCoord)(-h * sin( degs ) / 2 + y + h / 2);
 }
 
-static double PointDist( wxPoint pt1, wxPoint pt2 )
-{
-   double x = pt1.x - pt2.x;
-   double y = pt1.y - pt2.y;
-   return std::sqrt( x*x + y * y );
-}
-
 #include <wx/areadraw.h>
 
 AreaDraw::AreaDraw()
@@ -105,19 +98,19 @@ SemiCircleAreaDraw::~SemiCircleAreaDraw()
 void 
 SemiCircleAreaDraw::Draw( wxDC &dc, SemiCircleAreaType& areaTypeData)//wxPoint& center, double arcStart, double arcEnd, double radius )
 {
-   wxPoint& center = areaTypeData.m_Point;
+   wxPoint& upperLeft = areaTypeData.m_UpperLeftPoint;
    double arcStart = areaTypeData.m_ArcStart; 
    double arcLength = areaTypeData.m_ArcLength;
-   double radius = areaTypeData.m_Radius;
+   double diameter = areaTypeData.m_Diameter;
 
    // THESE SHOULD ALWAYS BE THE SAME.
    // Draw the slice.
-   int radHoriz = radius;
+   int radHoriz = diameter;
    int radVert = (int)(radHoriz);
 
    // These specify upper left corner of the rectangle that contains the pie chart.
-   wxCoord x0 = center.x;
-   wxCoord y0 = center.y;
+   wxCoord x0 = upperLeft.x;
+   wxCoord y0 = upperLeft.y;
 
    double angle1 = arcStart;
    double angle2 = arcStart + arcLength;

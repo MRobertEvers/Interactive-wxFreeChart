@@ -2,6 +2,7 @@
 #include <wx/chartrenderer.h>
 #include <wx/ClickableShape.h>
 #include <wx/bars/barrenderer.h> // For bartype
+#include <wx/pie/PieRenderer.h>
 
 class ClickableRenderer : public Renderer
 {
@@ -89,5 +90,22 @@ public:
 
 private:
    ClickableAreaCollection m_barClickDraws;
+   bool m_bHasDrawn;
+};
+
+class ClickablePieRenderer : public virtual ClickableRenderer, public virtual PieRenderer
+{
+public:
+   ClickablePieRenderer();
+   virtual ~ClickablePieRenderer();
+
+   virtual void Draw( wxDC &dc, wxRect rc, CategoryDataset *dataset );
+   virtual void DrawShape( wxDC& dc, SemiCircleAreaType& area, size_t serie, size_t category );
+   virtual void SetAreaDraw( size_t serie, ClickableShape* area );
+   virtual ClickableShape* GetAreaDraw( size_t serie );
+   virtual ClickableShape* GetDataAtPoint( wxPoint& pt );
+
+private:
+   ClickableAreaCollection m_PieClickDraws;
    bool m_bHasDrawn;
 };

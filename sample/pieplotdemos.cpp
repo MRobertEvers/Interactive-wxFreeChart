@@ -11,6 +11,8 @@
 
 #include <wx/pie/pieplot.h>
 #include <wx/category/categorysimpledataset.h>
+#include <wx/ClickableRenderer.h>
+#include <wx/ClickableShape.h>
 
 class PieplotDemo1 : public ChartDemo
 {
@@ -22,35 +24,69 @@ public:
 
     virtual Chart *Create()
     {
-      // serie pieplot data
-      double data[] = {1.0, 2.0, 3.0} ;
-      wxString categories[] = {_("cat 1"), _("cat 2"), _("cat 3")};
-      wxColour colours[] = {wxColour(0x99, 0xCC, 0xFF), wxColour(0xFF, 0xFF, 0x99), wxColour(0x3D, 0xEB, 0x3D)} ;
+      //// serie pieplot data
+      //double data[] = {1.0, 2.0, 3.0} ;
+      //wxString categories[] = {_("cat 1"), _("cat 2"), _("cat 3")};
+      //wxColour colours[] = {wxColour(0x99, 0xCC, 0xFF), wxColour(0xFF, 0xFF, 0x99), wxColour(0x3D, 0xEB, 0x3D)} ;
 
-      ColorScheme* colorScheme = new ColorScheme(colours, WXSIZEOF(colours));
+      //ColorScheme* colorScheme = new ColorScheme(colours, WXSIZEOF(colours));
+
+      //// first step: create plot
+      //PiePlot *plot = new PiePlot();
+
+      //// create dataset
+      //CategorySimpleDataset* dataset = new CategorySimpleDataset(categories, WXSIZEOF(categories));
+
+      //// and add serie to it
+      //dataset->AddSerie(_("Serie 1"), data, WXSIZEOF(data));
+
+      //// create category renderer for legend drawing
+      //dataset->SetRenderer(new CategoryRenderer(*colorScheme));
+
+      //// set color scheme
+      //plot->SetColorScheme(colorScheme);
+
+      //plot->SetDataset(dataset);
+
+      //// set legend to plot
+      //plot->SetLegend(new Legend(wxCENTER, wxRIGHT));
+
+      //// and finally create chart
+      //return new Chart(plot, GetName());
+
+      // serie pieplot data
+      double data[] = { 1.0, 2.0, 3.0 };
+      wxString categories[] = { _( "cat 1" ), _( "cat 2" ), _( "cat 3" ) };
+      wxColour colours[] = { wxColour( 0x99, 0xCC, 0xFF ), wxColour( 0xFF, 0xFF, 0x99 ), wxColour( 0x3D, 0xEB, 0x3D ) };
+
+      ColorScheme* colorScheme = new ColorScheme( colours, WXSIZEOF( colours ) );
 
       // first step: create plot
       PiePlot *plot = new PiePlot();
 
       // create dataset
-      CategorySimpleDataset* dataset = new CategorySimpleDataset(categories, WXSIZEOF(categories));
+      CategorySimpleDataset* dataset = new CategorySimpleDataset( categories, WXSIZEOF( categories ) );
 
       // and add serie to it
-      dataset->AddSerie(_("Serie 1"), data, WXSIZEOF(data));
+      dataset->AddSerie( _( "Serie 1" ), data, WXSIZEOF( data ) );
+
+      ClickablePieRenderer* renderer = new ClickablePieRenderer();
+
+      renderer->SetAreaDraw( 0, new ClickableSemiCircleDraw( *wxBLACK, *wxBLACK, new ClickableCategoryData( dataset ) ) );
 
       // create category renderer for legend drawing
-      dataset->SetRenderer(new CategoryRenderer(*colorScheme));
+      dataset->SetRenderer( (PieRenderer*)renderer );
 
       // set color scheme
-      plot->SetColorScheme(colorScheme);
+      plot->SetColorScheme( colorScheme );
 
-      plot->SetDataset(dataset);
+      plot->SetDataset( dataset );
 
       // set legend to plot
-      plot->SetLegend(new Legend(wxCENTER, wxRIGHT));
+      plot->SetLegend( new Legend( wxCENTER, wxRIGHT ) );
 
       // and finally create chart
-      return new Chart(plot, GetName());
+      return new Chart( plot, GetName() );
     }
 };
 

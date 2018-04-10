@@ -28,26 +28,42 @@ PieRenderer::Draw( wxDC &dc, wxRect rc, CategoryDataset *dataset )
       iTotal += dataset->GetValue( i, 0 );
    }
 
-   auto pieDraw = GetAreaDraw( 0 );
+   // Need to use dynamic cast to correctly find virtual base class.
+   SemiCircleAreaDraw* pieDraw = dynamic_cast<SemiCircleAreaDraw*>(GetAreaDraw( 0 ));
+
+
    unsigned int iRunningSum = 0;
    // i is category
    for( size_t i = 0; i < dataset->GetCount(); i++ )
    {
-      unsigned int arcStart, arcLength, radius;
-      wxPoint left;
-
-      SemiCircleAreaType sarea = pieDraw->GetPieArcValues( rc, iTotal, iRunningSum, dataset->GetValue(i, 0) );
+      // Set the color for the shape. Do this here because "dataset" is needed.
       pieDraw->SetFillBrush( dataset->GetBaseRenderer()->GetSerieColour( i ) );
-      iRunningSum += dataset->GetValue( i, 0 );
+      pieDraw->SetBorderPen( *wxBLACK_PEN );
 
-      pieDraw->Draw( dc, sarea );
+      SemiCircleAreaType sarea = SemiCircleAreaDraw::GetPieArcValues( rc, iTotal, iRunningSum, dataset->GetValue(i, 0) );
+
+      iRunningSum += dataset->GetValue( i, 0 );
+      DrawShape( dc, sarea, 0, i );
    }
 }
 
-SemiCircleAreaDraw*
+void 
+PieRenderer::DrawShape( wxDC& dc, SemiCircleAreaType& area, size_t serie, size_t category )
+{
+   SemiCircleAreaDraw* pieDraw = dynamic_cast<SemiCircleAreaDraw*>(GetAreaDraw( 0 ));
+   pieDraw->Draw( dc, area );
+}
+
+void 
+PieRenderer::SetAreaDraw( size_t serie, AreaDraw* area )
+{
+   m_PieDraws.SetAreaDraw( serie, area );
+}
+
+AreaDraw*
 PieRenderer::GetAreaDraw( size_t serie )
 {
-   SemiCircleAreaDraw* barDraw = (SemiCircleAreaDraw*)m_PieDraws.GetAreaDraw( serie );
+   AreaDraw* barDraw = m_PieDraws.GetAreaDraw( serie );
    if( barDraw == NULL )
    {
       // barDraw = new FillAreaDraw(GetDefaultColour(serie), GetDefaultColour(serie));

@@ -58,9 +58,9 @@ public:
 
     virtual size_t GetCount(size_t serie);
 
-    BarRenderer *GetRenderer()
+    Renderer *GetRenderer()
     {
-        return (BarRenderer *) m_renderer;
+        return (Renderer *) m_renderer;
     }
 
 protected:

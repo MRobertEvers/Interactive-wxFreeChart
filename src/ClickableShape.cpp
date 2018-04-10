@@ -1,6 +1,43 @@
 #include <wx/ClickableShape.h>
 #include <cmath>
 
+static double PointDist( wxPoint pt1, wxPoint pt2 )
+{
+   double x = pt1.x - pt2.x;
+   double y = pt1.y - pt2.y;
+   return std::sqrt( x*x + y * y );
+}
+
+bool 
+SemiCircleHitBox::IsHit( wxPoint& pt )
+{
+   if( PointDist( pt, m_Area.GetCenter() ) > m_Area.m_Diameter )
+   {
+      return false;
+   }
+   else
+   {
+      auto center = m_Area.GetCenter();
+      auto vecToPt = pt - center;
+      auto vecToX = wxPoint( m_Area.m_Diameter, 0 );
+      // Correct the orientation
+      vecToPt.y *= -1;
+
+      //dot = x1 * x2 + y1 * y2      // dot product between[x1, y1] and [x2, y2]
+      //   det = x1 * y2 - y1 * x2      // determinant
+      //   angle = atan2( det, dot )  // atan2( y, x ) or atan2( sin, cos )
+      auto dot = vecToX.x * vecToPt.x + vecToX.y * vecToPt.y;
+      auto det = vecToX.x * vecToPt.y - vecToX.y * vecToPt.x;
+      auto angle = std::atan2( det, dot ) * 180 / M_PI;
+
+      if( angle < 0 )
+      {
+         angle = 360 + angle;
+      }
+
+      return m_Area.m_ArcStart < angle && angle < (m_Area.m_ArcLength + m_Area.m_ArcStart);
+   }
+}
 
 ClickableCategoryData::ClickableCategoryData( CategoryDataset* ptData )
    : ClickableData( ptData )
@@ -77,37 +114,14 @@ ClickableShape::~ClickableShape()
    }
 }
 
-ClickableSemiCircleDraw::ClickableSemiCircleDraw( wxColour fill, wxColour borderPen, unsigned int iTotalPie,
-                                                  unsigned int iDrawnPie, unsigned int iThisSlice, ClickableData* data )
-   : MultiClickableShape(data), m_FillColour( fill ), m_BorderColour(borderPen),
-   m_TotalPie(iTotalPie), m_AlreadyEatenPie(iDrawnPie), m_DrawingPie(iThisSlice)
+ClickableSemiCircleDraw::ClickableSemiCircleDraw( wxColour fill, wxColour borderPen, ClickableData* data )
+   : MultiClickableShape(data), SemiCircleAreaDraw(borderPen, fill)
 {
-   m_ellipticAspect = 1.0f;
 }
 
 ClickableSemiCircleDraw::~ClickableSemiCircleDraw()
 {
 
-}
-
-bool 
-ClickableSemiCircleDraw::IsHit( wxPoint& pt )
-{
-   // Check if it is between the two angles and less than the distance of radius away from the center.
-   // arccos( (P122 + P132 - P232) / (2 * P12 * P13) )
-
-   // Distance to point
-   //double dist = PointDist( m_Center, pt );
-   //if( dist > m_Radius )
-   //{
-   //   return false;
-   //}
-   //else
-   {
-      return false;// see todo.
-   }
-
-   // TODO; Calculate if point is between angles.
 }
 
 void
@@ -119,7 +133,13 @@ ClickableSemiCircleDraw::Draw( wxDC &dc, wxRect rc )
 void
 ClickableSemiCircleDraw::Draw( wxDC &dc, wxRect rc, size_t serie, size_t category )
 {
-   Draw( dc, rc );
+}
+
+void
+ClickableSemiCircleDraw::Draw( wxDC & dc, SemiCircleAreaType & rc, size_t serie, size_t category )
+{
+   SemiCircleAreaDraw::Draw( dc, rc );
+   AddHitBox( new SemiCircleHitBox(rc), serie, category );
 }
 
 ClickableRectangleDraw::ClickableRectangleDraw( ClickableData* data )

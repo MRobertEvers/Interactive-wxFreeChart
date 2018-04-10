@@ -23,21 +23,41 @@ public:
    virtual ~AreaType() {};
 };
 
+class RectangleAreaType : public AreaType
+{
+public:
+   RectangleAreaType( const wxRect& rect ) : m_Rect( rect ) {}
+   virtual ~RectangleAreaType() {};
+
+   wxRect GetRect()
+   {
+      return m_Rect;
+   }
+
+private:
+   wxRect m_Rect;
+};
+
 class SemiCircleAreaType : public AreaType
 {
 public:
    SemiCircleAreaType( wxPoint& ptUpperLeft, unsigned int& arcStart, unsigned int& arcEnd, unsigned int& radies )
-      : m_Point(ptUpperLeft), m_ArcStart(arcStart), m_ArcLength(arcEnd), m_Radius(radies)
+      : m_UpperLeftPoint(ptUpperLeft), m_ArcStart(arcStart), m_ArcLength(arcEnd), m_Diameter(radies)
    {
 
    };
 
    virtual ~SemiCircleAreaType() {};
 
-   wxPoint m_Point;
+   wxPoint GetCenter()
+   {
+      return wxPoint( m_UpperLeftPoint.x + m_Diameter/2, m_UpperLeftPoint.y + m_Diameter/2 );
+   }
+
+   wxPoint m_UpperLeftPoint; // Upper left of the area that the plot is drawn
    unsigned int m_ArcStart;
    unsigned int m_ArcLength;
-   unsigned int m_Radius;
+   unsigned int m_Diameter;
 };
 
 /**
@@ -159,10 +179,10 @@ public:
 
    virtual void Draw( wxDC& dc, SemiCircleAreaType& areaTypeData );
 
-   virtual void GetPieArcValues( wxRect& rc, unsigned int iTotalPie, unsigned int iDrawnPie, unsigned int iThisSlice,
+   static void GetPieArcValues( wxRect& rc, unsigned int iTotalPie, unsigned int iDrawnPie, unsigned int iThisSlice,
                                  wxPoint& ptUpperLeft, unsigned int& arcStart, unsigned int& arcEnd, unsigned int& radies );
 
-   virtual SemiCircleAreaType GetPieArcValues( wxRect& rc, unsigned int iTotalPie, unsigned int iDrawnPie, unsigned int iThisSlice );
+   static SemiCircleAreaType GetPieArcValues( wxRect& rc, unsigned int iTotalPie, unsigned int iDrawnPie, unsigned int iThisSlice );
 };
 
 /**

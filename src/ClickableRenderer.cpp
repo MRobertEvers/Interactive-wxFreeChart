@@ -146,3 +146,62 @@ ClickableBarRenderer::GetDataAtPoint( wxPoint& pt )
       return NULL;
    }
 }
+
+ClickablePieRenderer::ClickablePieRenderer()
+{
+
+}
+
+ClickablePieRenderer::~ClickablePieRenderer()
+{
+
+}
+
+void 
+ClickablePieRenderer::Draw( wxDC &dc, wxRect rc, CategoryDataset *dataset )
+{
+   m_bHasDrawn = false;
+   m_PieClickDraws.ClearDrawnHitBoxes();
+   PieRenderer::Draw( dc, rc, dataset );
+   m_bHasDrawn = true;
+}
+
+void 
+ClickablePieRenderer::DrawShape( wxDC& dc, SemiCircleAreaType& area, size_t serie, size_t category )
+{
+   ClickableSemiCircleDraw* pieDraw = dynamic_cast<ClickableSemiCircleDraw*>(GetAreaDraw( 0 ));
+   pieDraw->Draw( dc, area, serie, category );
+}
+
+void 
+ClickablePieRenderer::SetAreaDraw( size_t serie, ClickableShape* area )
+{
+   m_PieClickDraws.SetAreaDraw( serie, area );
+}
+
+ClickableShape*
+ClickablePieRenderer::GetAreaDraw( size_t serie )
+{
+   ClickableShape* barDraw = m_PieClickDraws.GetAreaDraw( serie );
+   if( barDraw == NULL )
+   {
+      // barDraw = new FillAreaDraw(GetDefaultColour(serie), GetDefaultColour(serie));
+      barDraw = new ClickableSemiCircleDraw( *wxBLACK, GetDefaultColour( serie ) );
+
+      m_PieClickDraws.SetAreaDraw( serie, barDraw );
+   }
+   return barDraw;
+}
+
+ClickableShape* 
+ClickablePieRenderer::GetDataAtPoint( wxPoint& pt )
+{
+   if( m_bHasDrawn )
+   {
+      return m_PieClickDraws.GetDataAtPoint( pt );
+   }
+   else
+   {
+      return NULL;
+   }
+}

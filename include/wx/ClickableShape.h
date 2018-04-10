@@ -30,32 +30,32 @@ public:
 
    virtual bool IsHit( wxPoint& pt )
    {
-      return m_Rect.Contains( pt );
+      return m_Rect.GetRect().Contains( pt );
    }
 
 private:
-   wxRect m_Rect;
+   RectangleAreaType m_Rect;
 };
 
 class SemiCircleHitBox : public HitBox
 {
 public:
-   SemiCircleHitBox( wxPoint& center, double arcStart, double arcEnd, double radius )
-      : Center( center ), ArcStart( arcStart ), ArcEnd( arcEnd ), ArcRadius( radius )
+   SemiCircleHitBox( SemiCircleAreaType areaType )
+      : m_Area( areaType )
    {
-   };
-   virtual ~SemiCircleHitBox() {};
-
-   virtual bool IsHit( wxPoint& pt )
-   {
-      return false;
    }
 
+   SemiCircleHitBox( wxPoint& center, unsigned int arcStart, unsigned int arcEnd, unsigned int radius )
+      : SemiCircleHitBox(SemiCircleAreaType(center, arcStart, arcEnd, radius))
+   {
+   };
+
+   virtual ~SemiCircleHitBox() {};
+
+   virtual bool IsHit( wxPoint& pt );
+
 private:
-   wxPoint Center;
-   double ArcStart;
-   double ArcEnd;
-   double ArcRadius;
+   SemiCircleAreaType m_Area;
 };
 
 class ClickableData
@@ -128,8 +128,13 @@ public:
 
    // If IsHit returns true, then ClickableData will be configured to the correct data.
    virtual bool IsHit( wxPoint& pt ) = 0;
+   // DEPRACATED next 2
    virtual void Draw( wxDC &dc, wxRect rc ) = 0; // Called by a non-clickable renderer
    virtual void Draw( wxDC &dc, wxRect rc, size_t serie, size_t category ) = 0; // Called by a clickable renderer.
+
+   // Not pure virtual to maintain backwards compatibility.
+   virtual void Draw( wxDC &dc, AreaType& rc, size_t serie, size_t category ) {}; // Called by a clickable renderer.
+
    virtual void InitDraw() {};
    
    virtual ClickableData* GetData()
@@ -231,29 +236,17 @@ private:
 
 
 
-class ClickableSemiCircleDraw : public MultiClickableShape
+class ClickableSemiCircleDraw : public virtual MultiClickableShape, public virtual SemiCircleAreaDraw
 {
 public:
-   ClickableSemiCircleDraw( wxColour fill, wxColour borderPen, unsigned int iTotalPie,
-                            unsigned int iDrawnPie, unsigned int iThisSlice, ClickableData* data );
+   ClickableSemiCircleDraw( wxColour fill, wxColour borderPen, ClickableData* data = nullptr );
    virtual ~ClickableSemiCircleDraw();
-
-   virtual bool IsHit( wxPoint& pt );
 
    virtual void Draw( wxDC &dc, wxRect rc );
    virtual void Draw( wxDC &dc, wxRect rc, size_t serie, size_t category );
-
+   virtual void Draw( wxDC &dc, SemiCircleAreaType& rc, size_t serie, size_t category );
 private:
 
-   // Its really wasteful to duplicate the rectangle for each semicircle. But I think
-   // this is the most flexible way to do it.
-   wxRect m_Rect;
-   wxColour m_FillColour;
-   wxColour m_BorderColour;
-   unsigned int m_TotalPie;
-   unsigned int m_AlreadyEatenPie;
-   unsigned int m_DrawingPie;
-   float m_ellipticAspect;
 };
 
 class ClickableRectangleDraw : public MultiClickableShape
