@@ -14,7 +14,7 @@ This repository extends the functionality of wxFreeChart by including clickable 
  Change Design Notes
  ======
 - Areadraw class used to create "ClickableShape" class. ClickableShape class combines an AreaDraw, a HitBox, and associated data.  
-- ClickableShape offers an interface for returning data that was drawn at a point... i.e. It checks if a the point is contained in a HitBox, and if so, returns the data that that HitBox maps.  
+- ClickableShape offers an interface for returning data that was drawn at a point... i.e. It checks if a the point is contained in a HitBox, and if so, returns the data that that HitBox maps. Whatever function is used to draw the AreaDraw for the plot NEEDS TO BE OVERLOADED to call the version of Draw on the ClickableShape that maps the HitBox to the data and drawn area.
 - ChartPanel passes the click event (and only the click event currently) to the chart mode. The chart mode queries' the InteractivePlot (a new class) if it contains any shapes that were drawn at the clicked point.  
 - Changed the concept of drawing rectangle slightly. Now, instead of a drawing rect, renderer's should uses an AreaSpecification. All functions that use wxRect however still work.  
 - An AreaSpecification is an object that contains all the necessary data required to draw a polygon. This class was added to share data between the AreaDraw class and the HitBox class. This way, the HitBox can know the exact data that the AreaDraw used to draw its shape.  
