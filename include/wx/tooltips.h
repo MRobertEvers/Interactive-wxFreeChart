@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
 // Name:    tooltips.h
 // Purpose: tooltips declaration
-// Author:    Moskvichev Andrey V.
-// Created:    2010/12/16
-// Copyright:    (c) 2010 Moskvichev Andrey V.
+// Author:    Evers, Matthew R.
+// Created:    2018/04/12
+// Copyright:    (c) 2018 Evers, Matthew R.
 // Licence:    wxWidgets licence
 /////////////////////////////////////////////////////////////////////////////
 

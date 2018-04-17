@@ -1,3 +1,13 @@
+/////////////////////////////////////////////////////////////////////////////
+// Name:    ClickableShape.h
+// Purpose: Extend areadraw and provide hitbox calculations of click 
+//           detection
+// Author:    Evers, Matthew R.
+// Created:    2018/04/12
+// Copyright:    (c) 2018 Evers, Matthew R.
+// Licence:    wxWidgets licence
+/////////////////////////////////////////////////////////////////////////////
+
 #pragma once
 class wxDC;
 class wxPoint;

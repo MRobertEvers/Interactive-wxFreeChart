@@ -1,3 +1,12 @@
+/////////////////////////////////////////////////////////////////////////////
+// Name:    ClickableRenderer.h
+// Purpose: Provide a rendering class that utilizes clickable shapes.
+// Author:    Evers, Matthew R.
+// Created:    2018/04/12
+// Copyright:    (c) 2018 Evers, Matthew R.
+// Licence:    wxWidgets licence
+/////////////////////////////////////////////////////////////////////////////
+
 #pragma once
 #include <wx/chartrenderer.h>
 #include <wx/ClickableShape.h>
