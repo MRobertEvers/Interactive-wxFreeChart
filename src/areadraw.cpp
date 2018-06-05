@@ -112,8 +112,10 @@ SemiCircleAreaDraw::Draw( wxDC &dc, SemiCircleAreaType& areaTypeData)//wxPoint& 
    wxCoord x0 = upperLeft.x;
    wxCoord y0 = upperLeft.y;
 
-   double angle1 = arcStart;
-   double angle2 = arcStart + arcLength;
+   // Round the start and the upper angle down.
+   double angle1 = std::floor(arcStart);
+   // Add one degree, then round down this removes breaks between the drawn areas.
+   double angle2 = std::floor( arcStart + arcLength + 3.14/180.0 );
 
    dc.SetPen( m_borderPen );
    dc.SetBrush( m_fillBrush );

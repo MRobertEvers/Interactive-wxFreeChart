@@ -4,7 +4,10 @@
 This repository extends the functionality of wxFreeChart by including clickable plots and tooltip support. 
  All existing wxFreeChart code still works... i.e. all changes are backwards compatible. See change notes for new features.  
 
-
+ Implementation Issues
+ =====================
+I only made a slight effort to use wxContainers. E.g. I used `std::map`, `std::pair`, as well as some functions like `std::floor` and `std::to_string`. This could easily be changed but I found that wxWidgets already used some STL containers in the `Observable` classes. I figured if I was going to remove some `std::` I might as well do all, but I never got around to it.
+ 
  Changes Notes
  ===============
 - Fixed Stacked Bar Chart bug when using more than 2 series'.  

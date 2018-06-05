@@ -164,6 +164,9 @@ protected:
    }
 };
 
+WX_DECLARE_HASH_MAP( int, wxString, wxIntegerHash, wxIntegerEqual,
+   MyHash );
+
 class MultiClickableShape : public ClickableShape
 {
 public:
