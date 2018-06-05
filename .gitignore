@@ -5,7 +5,10 @@
 build/autom4te.cache/
 build/vc_mswud/
 sample/vc_mswud/
+sample/vc_mswu/
 lib/
+
+
 
 # User-specific files
 *.suo
