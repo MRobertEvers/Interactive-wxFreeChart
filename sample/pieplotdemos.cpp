@@ -55,8 +55,8 @@ public:
       //return new Chart(plot, GetName());
 
       // serie pieplot data
-      double data[] = { 1.0, 2.0, 3.0 };
-      wxString categories[] = { _( "cat 1" ), _( "cat 2" ), _( "cat 3" ) };
+      double data[] = { 54.3, 21.0, 3.08, 91.1, 37.8, 6.555 };
+      wxString categories[] = { _( "cat 1" ), _( "cat 2" ), _( "cat 3" ), _( "cat 3" ), _( "cat 3" ), _( "cat 3" ) };
       wxColour colours[] = { wxColour( 0x99, 0xCC, 0xFF ), wxColour( 0xFF, 0xFF, 0x99 ), wxColour( 0x3D, 0xEB, 0x3D ) };
 
       ColorScheme* colorScheme = new ColorScheme( colours, WXSIZEOF( colours ) );
