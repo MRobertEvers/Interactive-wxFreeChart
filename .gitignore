@@ -4,6 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 build/autom4te.cache/
 build/vc_mswud/
+build/vc_mswu/
+build/vc_mswu-static/
 sample/vc_mswud/
 sample/vc_mswu/
 lib/
