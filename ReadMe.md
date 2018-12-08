@@ -4,6 +4,14 @@
 This repository extends the functionality of wxFreeChart by including clickable plots and tooltip support. 
  All existing wxFreeChart code still works... i.e. all changes are backwards compatible. See change notes for new features.  
 
+ Images
+ ======
+ 
+ I only implemented clickable Bar and Pie charts. Images of each below.
+ 
+ ![Pie](doc/clickpie.PNG)
+ 
+ ![Bar](doc/clickbar.PNG)
 
  Usage - Clickable Charts and Tooltips
  =====================
